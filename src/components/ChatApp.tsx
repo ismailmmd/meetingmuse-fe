@@ -24,12 +24,15 @@ export const ChatApp: React.FC = () => {
       const displayMessage: DisplayMessage = {
         id: `msg-${Date.now()}-${Math.random()}`,
         type:
-          data.type === 'error'
+          'type' in data && data.type === 'error'
             ? 'error'
-            : data.type === 'system'
+            : 'type' in data && data.type === 'system'
               ? 'system'
               : 'ai',
-        content: data.content || data.message || 'Unknown message',
+        content: 
+          'content' in data ? data.content : 
+          'message' in data ? data.message : 
+          'Unknown message',
         timestamp: data.timestamp || new Date().toISOString(),
       };
 
