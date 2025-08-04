@@ -2,6 +2,8 @@
 
 A modern, responsive web-based chat application for MeetingMuse, an AI-powered meeting scheduling assistant. Built with React + Vite, TypeScript, and Tailwind CSS.
 
+Webserver - https://github.com/thisisarjun/meetingmuse
+
 ## Features
 
 - **Real-time Chat Interface**: WebSocket-based communication with the MeetingMuse AI assistant
