@@ -39,7 +39,7 @@ Make sure your MeetingMuse WebSocket server is running:
 
 ```bash
 # In your meetingmuse project directory
-poetry run python src/meetingmuse_server/main.py
+poetry run python -m src.server.main
 ```
 
 ## Available Scripts
