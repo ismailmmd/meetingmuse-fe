@@ -5,7 +5,10 @@ interface MessageInputProps {
   disabled?: boolean;
 }
 
-export const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled = false }) => {
+export const MessageInput: React.FC<MessageInputProps> = ({
+  onSend,
+  disabled = false,
+}) => {
   const [message, setMessage] = useState('');
 
   const handleSend = () => {
@@ -29,7 +32,11 @@ export const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled = f
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder={disabled ? "Connecting..." : "Type your message... (Enter to send, Shift+Enter for new line)"}
+          placeholder={
+            disabled
+              ? 'Connecting...'
+              : 'Type your message... (Enter to send, Shift+Enter for new line)'
+          }
           disabled={disabled}
           className="flex-1 border border-gray-300 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
           rows={1}

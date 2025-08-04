@@ -15,7 +15,7 @@ export interface SystemMessage {
   type: 'system';
   content: string;
   timestamp: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ErrorMessage {

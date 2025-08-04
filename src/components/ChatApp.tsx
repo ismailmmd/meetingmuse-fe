@@ -20,24 +20,27 @@ export const ChatApp: React.FC = () => {
 
     wsService.current.onMessage((data) => {
       console.log('Received data:', data);
-      
+
       const displayMessage: DisplayMessage = {
         id: `msg-${Date.now()}-${Math.random()}`,
-        type: data.type === 'error' ? 'error' : 
-              data.type === 'system' ? 'system' : 'ai',
+        type:
+          data.type === 'error'
+            ? 'error'
+            : data.type === 'system'
+              ? 'system'
+              : 'ai',
         content: data.content || data.message || 'Unknown message',
         timestamp: data.timestamp || new Date().toISOString(),
       };
 
-      setMessages(prev => [...prev, displayMessage]);
+      setMessages((prev) => [...prev, displayMessage]);
     });
 
-    wsService.current.connect()
-      .catch((error) => {
-        console.error('Connection failed:', error);
-        setConnecting(false);
-        setConnected(false);
-      });
+    wsService.current.connect().catch((error) => {
+      console.error('Connection failed:', error);
+      setConnecting(false);
+      setConnected(false);
+    });
 
     return () => {
       wsService.current?.disconnect();
@@ -52,19 +55,17 @@ export const ChatApp: React.FC = () => {
       type: 'user',
       content,
       timestamp: new Date().toISOString(),
-      status: 'sending'
+      status: 'sending',
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
 
     wsService.current.sendMessage(content);
 
     setTimeout(() => {
-      setMessages(prev => 
-        prev.map(msg => 
-          msg.id === userMessage.id 
-            ? { ...msg, status: 'sent' }
-            : msg
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === userMessage.id ? { ...msg, status: 'sent' } : msg
         )
       );
     }, 100);
@@ -88,10 +89,15 @@ export const ChatApp: React.FC = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">MeetingMuse Chat</h1>
           <div className={`text-sm flex items-center ${getStatusColor()}`}>
-            <div className={`w-2 h-2 rounded-full mr-2 ${
-              connecting ? 'bg-yellow-400 animate-pulse' :
-              connected ? 'bg-green-400' : 'bg-red-400'
-            }`}></div>
+            <div
+              className={`w-2 h-2 rounded-full mr-2 ${
+                connecting
+                  ? 'bg-yellow-400 animate-pulse'
+                  : connected
+                    ? 'bg-green-400'
+                    : 'bg-red-400'
+              }`}
+            ></div>
             {getStatusText()}
           </div>
         </div>
@@ -99,10 +105,7 @@ export const ChatApp: React.FC = () => {
 
       <MessageList messages={messages} />
 
-      <MessageInput 
-        onSend={handleSend} 
-        disabled={!connected} 
-      />
+      <MessageInput onSend={handleSend} disabled={!connected} />
     </div>
   );
 };

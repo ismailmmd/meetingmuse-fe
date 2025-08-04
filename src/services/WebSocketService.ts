@@ -1,9 +1,9 @@
-import { UserMessage } from '../types/message';
+import { UserMessage, Message } from '../types/message';
 
 export class WebSocketService {
   private ws: WebSocket | null = null;
   private clientId: string;
-  private messageCallbacks: ((message: any) => void)[] = [];
+  private messageCallbacks: ((message: Message) => void)[] = [];
   private statusCallbacks: ((status: boolean) => void)[] = [];
 
   constructor() {
@@ -14,7 +14,7 @@ export class WebSocketService {
     return new Promise((resolve, reject) => {
       try {
         this.ws = new WebSocket(`ws://localhost:8000/ws/${this.clientId}`);
-        
+
         this.ws.onopen = () => {
           console.log('Connected to WebSocket server');
           this.notifyStatusChange(true);
@@ -25,7 +25,7 @@ export class WebSocketService {
           try {
             const data = JSON.parse(event.data);
             console.log('Received message:', data);
-            this.messageCallbacks.forEach(callback => callback(data));
+            this.messageCallbacks.forEach((callback) => callback(data));
           } catch (error) {
             console.error('Error parsing message:', error);
           }
@@ -50,12 +50,12 @@ export class WebSocketService {
   sendMessage(content: string): void {
     if (this.ws?.readyState === WebSocket.OPEN) {
       const message: UserMessage = {
-        type: "user_message",
+        type: 'user_message',
         content,
         timestamp: new Date().toISOString(),
-        session_id: this.clientId
+        session_id: this.clientId,
       };
-      
+
       console.log('Sending message:', message);
       this.ws.send(JSON.stringify(message));
     } else {
@@ -63,7 +63,7 @@ export class WebSocketService {
     }
   }
 
-  onMessage(callback: (message: any) => void): void {
+  onMessage(callback: (message: Message) => void): void {
     this.messageCallbacks.push(callback);
   }
 
@@ -72,7 +72,7 @@ export class WebSocketService {
   }
 
   private notifyStatusChange(connected: boolean): void {
-    this.statusCallbacks.forEach(callback => callback(connected));
+    this.statusCallbacks.forEach((callback) => callback(connected));
   }
 
   disconnect(): void {
