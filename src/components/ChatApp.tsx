@@ -2,16 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import { WebSocketService } from '../services/WebSocketService';
 import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
+import { LogoutButton } from './AuthButtons';
+import { useAuth } from '../contexts/AuthContext';
 import { DisplayMessage } from '../types/message';
 
 export const ChatApp: React.FC = () => {
+  const { user, session } = useAuth();
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(true);
   const wsService = useRef<WebSocketService | null>(null);
 
   useEffect(() => {
-    wsService.current = new WebSocketService();
+    if (!user || !session?.sessionId || !session.clientId) return;
+    
+    wsService.current = new WebSocketService(session.clientId, session.sessionId);
 
     wsService.current.onStatusChange((status) => {
       setConnected(status);
@@ -48,7 +53,7 @@ export const ChatApp: React.FC = () => {
     return () => {
       wsService.current?.disconnect();
     };
-  }, []);
+  }, [user, session]);
 
   const handleSend = (content: string) => {
     if (!wsService.current || !connected) return;
@@ -90,19 +95,22 @@ export const ChatApp: React.FC = () => {
     <div className="h-screen flex flex-col bg-gray-50">
       <div className="bg-blue-600 text-white p-4 shadow-md">
         <div className="flex justify-between items-center">
-          <h1 className="text-xl font-semibold">MeetingMuse Chat</h1>
-          <div className={`text-sm flex items-center ${getStatusColor()}`}>
-            <div
-              className={`w-2 h-2 rounded-full mr-2 ${
-                connecting
-                  ? 'bg-yellow-400 animate-pulse'
-                  : connected
-                    ? 'bg-green-400'
-                    : 'bg-red-400'
-              }`}
-            ></div>
-            {getStatusText()}
+          <div className="flex items-center space-x-4">
+            <h1 className="text-xl font-semibold">MeetingMuse Chat</h1>
+            <div className={`text-sm flex items-center ${getStatusColor()}`}>
+              <div
+                className={`w-2 h-2 rounded-full mr-2 ${
+                  connecting
+                    ? 'bg-yellow-400 animate-pulse'
+                    : connected
+                      ? 'bg-green-400'
+                      : 'bg-red-400'
+                }`}
+              ></div>
+              {getStatusText()}
+            </div>
           </div>
+          <LogoutButton />
         </div>
       </div>
 
