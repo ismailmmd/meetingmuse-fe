@@ -3,17 +3,20 @@ import { UserMessage, Message } from '../types/message';
 export class WebSocketService {
   private ws: WebSocket | null = null;
   private clientId: string;
+  private sessionId: string;
   private messageCallbacks: ((message: Message) => void)[] = [];
   private statusCallbacks: ((status: boolean) => void)[] = [];
 
-  constructor() {
-    this.clientId = `client-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  constructor(clientId: string, sessionId: string) {
+    this.clientId = clientId;
+    this.sessionId = sessionId;
   }
 
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        this.ws = new WebSocket(`ws://localhost:8000/ws/${this.clientId}`);
+        const wsUrl = `ws://localhost:8000/ws/${this.clientId}?session_id=${encodeURIComponent(this.sessionId)}`;
+        this.ws = new WebSocket(wsUrl);
 
         this.ws.onopen = () => {
           console.log('Connected to WebSocket server');
@@ -53,7 +56,7 @@ export class WebSocketService {
         type: 'user_message',
         content,
         timestamp: new Date().toISOString(),
-        session_id: this.clientId,
+        session_id: this.sessionId,
       };
 
       console.log('Sending message:', message);
