@@ -9,6 +9,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   const isUser = message.type === 'user';
   const isError = message.type === 'error';
   const isSystem = message.type === 'system';
+  const isProcessing = isSystem && message.content.toLowerCase() === 'processing';
 
   const formatTime = (timestamp: string) => {
     return new Date(timestamp).toLocaleTimeString([], {
@@ -19,16 +20,20 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-6 fade-in`}>
-      {/* AI Avatar for non-user messages */}
-      {!isUser && !isError && !isSystem && (
+      {/* AI Avatar for non-user messages and processing */}
+      {(!isUser && !isError && !isSystem) || isProcessing ? (
         <div className="flex-shrink-0 mr-3 mt-1">
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-md">
-            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-            </svg>
+            {isProcessing ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            )}
           </div>
         </div>
-      )}
+      ) : null}
       
       <div
         className={`max-w-xs lg:max-w-md xl:max-w-lg px-5 py-3 rounded-2xl shadow-lg ${
@@ -36,14 +41,27 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
             ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white ml-12 rounded-br-md'
             : isError
               ? 'bg-gradient-to-br from-red-50 to-red-100 text-red-700 border border-red-200 rounded-bl-md'
-              : isSystem
-                ? 'bg-gradient-to-br from-amber-50 to-amber-100 text-amber-700 border border-amber-200 rounded-bl-md'
-                : 'bg-white text-gray-800 border border-gray-200 rounded-bl-md hover:shadow-xl transition-shadow duration-200'
+              : isProcessing
+                ? 'bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 border border-blue-200 rounded-bl-md'
+                : isSystem
+                  ? 'bg-gradient-to-br from-amber-50 to-amber-100 text-amber-700 border border-amber-200 rounded-bl-md'
+                  : 'bg-white text-gray-800 border border-gray-200 rounded-bl-md hover:shadow-xl transition-shadow duration-200'
         }`}
       >
         {/* Message Content */}
-        <div className={`text-sm leading-relaxed ${isUser ? 'text-white' : 'text-gray-800'}`}>
-          {message.content}
+        <div className={`text-sm leading-relaxed ${isUser ? 'text-white' : isProcessing ? 'text-blue-700' : 'text-gray-800'}`}>
+          {isProcessing ? (
+            <div className="flex items-center space-x-3">
+              <div className="flex space-x-1">
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              </div>
+              <span className="font-medium">Processing your request...</span>
+            </div>
+          ) : (
+            message.content
+          )}
         </div>
         
         {/* Timestamp and Status */}
@@ -54,9 +72,11 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
                 ? 'text-blue-100' 
                 : isError 
                   ? 'text-red-500' 
-                  : isSystem 
-                    ? 'text-amber-600' 
-                    : 'text-gray-500'
+                  : isProcessing
+                    ? 'text-blue-600'
+                    : isSystem 
+                      ? 'text-amber-600' 
+                      : 'text-gray-500'
             }`}
           >
             {formatTime(message.timestamp)}

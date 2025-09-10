@@ -40,7 +40,13 @@ export const ChatApp: React.FC = () => {
         timestamp: data.timestamp || new Date().toISOString(),
       };
 
-      setMessages((prev) => [...prev, displayMessage]);
+      setMessages((prev) => {
+        // Remove any existing processing messages when a new message arrives
+        const filteredMessages = prev.filter(msg => 
+          !(msg.type === 'system' && msg.content.toLowerCase() === 'processing')
+        );
+        return [...filteredMessages, displayMessage];
+      });
     });
 
     wsService.current.connect().catch((error) => {
