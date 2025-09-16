@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => {
       wsUrl: 'ws://localhost:8000',
     },
     production: {
-      apiUrl: 'https://api.meetingmuse.com',
-      wsUrl: 'wss://api.meetingmuse.com',
+      apiUrl: 'https://meetingmuse.onrender.com',
+      wsUrl: 'wss://meetingmuse.onrender.com',
     }
   }
   
