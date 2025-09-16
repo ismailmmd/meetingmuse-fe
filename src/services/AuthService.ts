@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = __VITE_API_URL__;
 
 export interface AuthUrlResponse {
   authorization_url: string;
