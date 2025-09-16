@@ -4,6 +4,8 @@ A modern, responsive web-based chat application for MeetingMuse, an AI-powered m
 
 Webserver - https://github.com/thisisarjun/meetingmuse
 
+Visit the app at https://meetingmuse.vercel.app/
+
 ## Features
 
 - **Real-time Chat Interface**: WebSocket-based communication with the MeetingMuse AI assistant
