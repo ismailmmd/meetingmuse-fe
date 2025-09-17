@@ -18,11 +18,12 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar">
+    <div className="flex-1 overflow-y-auto custom-scrollbar" style={{ minHeight: 0 }}>
       {messages.length === 0 ? (
         <div className="flex items-center justify-center h-full p-4 sm:p-6 lg:p-8">
           <div className="text-center max-w-sm sm:max-w-md lg:max-w-lg slide-up">
             {/* Welcome Icon */}
+            
             <div className="mb-4 sm:mb-6">
               <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center shadow-lg">
                 <svg className="w-8 h-8 sm:w-10 sm:h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24">

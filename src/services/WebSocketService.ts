@@ -15,6 +15,7 @@ export class WebSocketService {
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
+        console.log("sessionId", this.sessionId);
         const wsUrl = `${__VITE_WS_URL__}/ws/${this.clientId}?session_id=${encodeURIComponent(this.sessionId)}`;
         this.ws = new WebSocket(wsUrl);
 

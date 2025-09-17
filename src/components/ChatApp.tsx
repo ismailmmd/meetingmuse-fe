@@ -97,7 +97,7 @@ export const ChatApp: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-purple-50" style={{ height: '100vh', overflow: 'hidden' }}>
       {/* Responsive Header */}
       <div className="relative">
         <div className="blue-gradient px-4 py-3 sm:px-6 sm:py-4 shadow-lg">
@@ -161,11 +161,9 @@ export const ChatApp: React.FC = () => {
       </div>
 
       {/* Chat Container - Mobile optimized */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm border-t border-white/20">
-          <MessageList messages={messages} />
-          <MessageInput onSend={handleSend} disabled={!connected} />
-        </div>
+      <div className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm border-t border-white/20" style={{ minHeight: 0 }}>
+        <MessageList messages={messages} />
+        <MessageInput onSend={handleSend} disabled={!connected} />
       </div>
     </div>
   );
