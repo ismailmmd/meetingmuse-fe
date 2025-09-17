@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { DisplayMessage } from '../types/message';
 
 export const ChatApp: React.FC = () => {
-  const { user, session } = useAuth();
+  const { user, session, logout } = useAuth();
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(true);
@@ -116,9 +116,9 @@ export const ChatApp: React.FC = () => {
               </div>
             </div>
             
-            {/* Connection Status - Responsive */}
+            {/* Right side controls - Responsive */}
             <div className="flex items-center space-x-2">
-              {/* Connection indicator only on mobile, full status on desktop */}
+              {/* Connection indicator */}
               <div className={`flex items-center space-x-1 sm:space-x-2 px-2 py-1 sm:px-3 sm:py-2 rounded-full bg-white/20 backdrop-blur-sm ${getStatusColor()}`}>
                 <div
                   className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
@@ -134,7 +134,7 @@ export const ChatApp: React.FC = () => {
                 </span>
               </div>
               
-              {/* User avatar - hidden on small screens */}
+              {/* User info - hidden on small screens */}
               <div className="hidden md:flex items-center space-x-2 px-3 py-2 rounded-full bg-white/15 backdrop-blur-sm">
                 <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
                   <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -143,6 +143,18 @@ export const ChatApp: React.FC = () => {
                 </div>
                 <span className="text-white text-sm font-medium">Anonymous</span>
               </div>
+              
+              {/* Logout Button */}
+              <button
+                onClick={logout}
+                className="p-2 sm:px-3 sm:py-2 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all duration-200 group"
+                title="Logout"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:text-red-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="hidden lg:inline ml-2 text-white text-sm font-medium group-hover:text-red-200">Logout</span>
+              </button>
             </div>
           </div>
         </div>
