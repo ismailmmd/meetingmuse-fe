@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { DisplayMessage } from '../types/message';
 
 export const ChatApp: React.FC = () => {
-  const { user, session } = useAuth();
+  const { user, session, logout } = useAuth();
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(true);
@@ -97,64 +97,73 @@ export const ChatApp: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
-      {/* Elegant Header with Gradient and Glass Effect */}
+    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-purple-50" style={{ height: '100vh', overflow: 'hidden' }}>
+      {/* Responsive Header */}
       <div className="relative">
-        <div className="blue-gradient p-6 shadow-2xl">
+        <div className="blue-gradient px-4 py-3 sm:px-6 sm:py-4 shadow-lg">
           <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-6">
-              {/* Logo/Icon */}
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+            {/* Logo and Title - Responsive */}
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
               </div>
               
               <div>
-                <h1 className="text-2xl font-bold text-white tracking-tight">MeetingMuse</h1>
-                <p className="text-blue-100 text-sm font-medium">AI Meeting Assistant</p>
+                <h1 className="text-lg sm:text-xl font-bold text-white tracking-tight">MeetingMuse</h1>
+                <p className="text-blue-100 text-xs sm:text-sm font-medium hidden sm:block">AI Meeting Assistant</p>
               </div>
             </div>
             
-            {/* Connection Status */}
-            <div className="flex items-center space-x-4">
-              <div className={`flex items-center space-x-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm ${getStatusColor()}`}>
+            {/* Right side controls - Responsive */}
+            <div className="flex items-center space-x-2">
+              {/* Connection indicator */}
+              <div className={`flex items-center space-x-1 sm:space-x-2 px-2 py-1 sm:px-3 sm:py-2 rounded-full bg-white/20 backdrop-blur-sm ${getStatusColor()}`}>
                 <div
-                  className={`w-3 h-3 rounded-full ${
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                     connecting
-                      ? 'bg-yellow-300 animate-pulse shadow-lg shadow-yellow-300/50'
+                      ? 'bg-yellow-300 animate-pulse'
                       : connected
-                        ? 'bg-green-300 shadow-lg shadow-green-300/50'
-                        : 'bg-red-300 shadow-lg shadow-red-300/50'
+                        ? 'bg-green-300'
+                        : 'bg-red-300'
                   }`}
                 ></div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-white font-medium text-xs sm:text-sm hidden sm:inline">
                   {getStatusText()}
                 </span>
               </div>
               
-              <div className="flex items-center space-x-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-sm">
-                <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+              {/* User info - hidden on small screens */}
+              <div className="hidden md:flex items-center space-x-2 px-3 py-2 rounded-full bg-white/15 backdrop-blur-sm">
+                <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
+                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
                   </svg>
                 </div>
                 <span className="text-white text-sm font-medium">Anonymous</span>
               </div>
+              
+              {/* Logout Button */}
+              <button
+                onClick={logout}
+                className="p-2 sm:px-3 sm:py-2 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all duration-200 group"
+                title="Logout"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:text-red-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="hidden lg:inline ml-2 text-white text-sm font-medium group-hover:text-red-200">Logout</span>
+              </button>
             </div>
           </div>
         </div>
-        
-        {/* Subtle shadow gradient */}
-        <div className="absolute inset-x-0 top-full h-4 bg-gradient-to-b from-black/10 to-transparent pointer-events-none"></div>
       </div>
 
-      {/* Chat Container with Glass Effect */}
-      <div className="flex-1 p-4 overflow-hidden">
-        <div className="h-full glass-effect rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-          <MessageList messages={messages} />
-          <MessageInput onSend={handleSend} disabled={!connected} />
-        </div>
+      {/* Chat Container - Mobile optimized */}
+      <div className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm border-t border-white/20" style={{ minHeight: 0 }}>
+        <MessageList messages={messages} />
+        <MessageInput onSend={handleSend} disabled={!connected} />
       </div>
     </div>
   );

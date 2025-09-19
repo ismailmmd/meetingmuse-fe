@@ -10,13 +10,24 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   const isError = message.type === 'error';
   const isSystem = message.type === 'system';
   const isProcessing = isSystem && message.content.toLowerCase() === 'processing';
-
   const formatTime = (timestamp: string) => {
     return new Date(timestamp).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     });
   };
+
+  // Special rendering for all system messages (except processing)
+  if (isSystem && !isProcessing) {
+    return (
+      <div className="flex justify-center mb-3 fade-in">
+        <div className="px-3 py-1 bg-gray-100/80 text-gray-500 rounded-full text-xs font-medium">
+          <span>{message.content.replace(/_/g, ' ')}</span>
+          <span className="ml-2 text-gray-400">{formatTime(message.timestamp)}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-6 fade-in`}>

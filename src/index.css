@@ -9,29 +9,67 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
   
+  html {
+    /* Prevent zooming on mobile when focusing inputs */
+    font-size: 16px;
+  }
+  
   body {
     @apply antialiased;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    /* Prevent horizontal scrolling on mobile */
+    overflow-x: hidden;
+    /* Improve touch scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Mobile-specific optimizations */
+  @media (max-width: 640px) {
+    body {
+      font-size: 14px;
+      /* Ensure proper viewport behavior */
+      touch-action: manipulation;
+    }
   }
 }
 
 @layer components {
-  /* Custom scrollbar */
+  /* Custom scrollbar - force scrolling to work */
+  .custom-scrollbar {
+    /* Force scrollbar to appear and work */
+    overflow-y: scroll !important;
+    /* Enable momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Improve scrolling performance */
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+  }
+  
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-100 rounded-full;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-blue-300 rounded-full;
+    background: rgba(59, 130, 246, 0.6);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-blue-400;
+    background: rgba(59, 130, 246, 0.8);
+  }
+  
+  /* Mobile specific */
+  @media (max-width: 640px) {
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
   }
 
   /* Elegant glassmorphism effect */
