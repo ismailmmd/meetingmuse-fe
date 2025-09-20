@@ -44,7 +44,7 @@ export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
       console.log('Debounce timeout cleared for query:', query);
       clearTimeout(timeoutId);
     };
-  }, [query, searchContacts]);
+  }, [query, searchContacts, debounceDelay]);
 
   return {
     contacts,
