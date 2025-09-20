@@ -6,6 +6,7 @@ interface ContactsDropdownProps {
   onSelect: (contact: Contact) => void;
   visible: boolean;
   position: { top: number; left: number };
+  loading?: boolean;
 }
 
 export const ContactsDropdown: React.FC<ContactsDropdownProps> = ({
@@ -13,10 +14,36 @@ export const ContactsDropdown: React.FC<ContactsDropdownProps> = ({
   onSelect,
   visible,
   position,
+  loading = false,
 }) => {
-  console.log('ContactsDropdown render:', { visible, contactsLength: contacts.length, position });
+  console.log('ContactsDropdown render:', { visible, contactsLength: contacts.length, position, loading });
 
-  if (!visible || contacts.length === 0) {
+  if (!visible) {
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <div
+        data-mention-dropdown
+        className="absolute z-[9999] bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden"
+        style={{
+          bottom: '100%',
+          left: 0,
+          minWidth: '200px',
+          maxWidth: '300px',
+          marginBottom: '4px',
+        }}
+      >
+        <div className="px-3 py-2 text-gray-500 text-sm flex items-center space-x-2">
+          <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <span>Searching contacts...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (contacts.length === 0) {
     return null;
   }
 

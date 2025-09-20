@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ContactsService, Contact } from '../services/ContactsService';
 
-export const useMentions = (sessionId: string) => {
+export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
@@ -28,15 +28,22 @@ export const useMentions = (sessionId: string) => {
   }, [sessionId]);
 
   useEffect(() => {
+    // Debounce the API call - waits 300ms after user stops typing
     const timeoutId = setTimeout(() => {
-      if (query) {
+      if (query.trim()) {
+        console.log('Debounced API call triggered for query:', query);
         searchContacts(query);
       } else {
         setContacts([]);
+        setLoading(false);
       }
-    }, 300); // Debounce for 300ms
+    }, debounceDelay); // Configurable debounce delay
 
-    return () => clearTimeout(timeoutId);
+    // Cleanup function: cancel the timeout if query changes before 300ms
+    return () => {
+      console.log('Debounce timeout cleared for query:', query);
+      clearTimeout(timeoutId);
+    };
   }, [query, searchContacts]);
 
   return {

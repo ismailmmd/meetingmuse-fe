@@ -30,7 +30,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   const [mentionStart, setMentionStart] = useState(-1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { contacts, setQuery } = useMentions(session?.sessionId || '');
+  const { contacts, setQuery, loading } = useMentions(session?.sessionId || '', 500); // 500ms debounce
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
@@ -54,6 +54,17 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
     if (atIndex === -1) {
       console.log('No @ found');
+      return null;
+    }
+
+    // Check if @ is at the start of a word (preceded by space, start of string, or newline)
+    const charBeforeAt = atIndex > 0 ? beforeCursor[atIndex - 1] : ' ';
+    const isAtStartOfWord = charBeforeAt === ' ' || charBeforeAt === '\n' || atIndex === 0;
+
+    console.log('charBeforeAt:', charBeforeAt, 'isAtStartOfWord:', isAtStartOfWord);
+
+    if (!isAtStartOfWord) {
+      console.log('@ is not at start of word, ignoring');
       return null;
     }
 
@@ -121,8 +132,8 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     const newDisplayMessage = `${beforeMention}${contactName}${remainingText}`;
     setDisplayMessage(newDisplayMessage);
 
-    // Update actual message with email
-    const newActualMessage = `${beforeMention}@${contact.email}${remainingText}`;
+    // Update actual message with email (without leading @)
+    const newActualMessage = `${beforeMention}${contact.email}${remainingText}`;
     setMessage(newActualMessage);
 
     // Add to mentions list
@@ -151,13 +162,13 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
     // Replace the mention in both display and actual message
     const updatedDisplayMessage = displayMessage.replace(mentionToRemove.name, '');
-    const updatedActualMessage = message.replace(`@${mentionToRemove.email}`, '');
+    const updatedActualMessage = message.replace(mentionToRemove.email, '');
 
     setDisplayMessage(updatedDisplayMessage);
     setMessage(updatedActualMessage);
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (showDropdown && (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')) {
       e.preventDefault();
       return;
@@ -216,7 +227,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
             ref={textareaRef}
             value={displayMessage}
             onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             placeholder={
               disabled
                 ? 'Connecting...'
@@ -243,6 +254,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
             onSelect={handleContactSelect}
             visible={showDropdown}
             position={dropdownPosition}
+            loading={loading}
           />
         </div>
         
