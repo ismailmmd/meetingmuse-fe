@@ -6,7 +6,7 @@ interface EmailChipProps {
   onRemove: () => void;
 }
 
-export const EmailChip: React.FC<EmailChipProps> = ({ name, email, onRemove }) => {
+export const EmailChip: React.FC<EmailChipProps> = ({ name, onRemove }) => {
   return (
     <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
       <span>{name}</span>

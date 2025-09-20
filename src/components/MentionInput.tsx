@@ -1,5 +1,4 @@
 import React, { useState, useRef, KeyboardEvent } from 'react';
-import { EmailChip } from './EmailChip';
 import { ContactsDropdown } from './ContactsDropdown';
 import { useMentions } from '../hooks/useMentions';
 import { Contact } from '../services/ContactsService';
@@ -22,7 +21,6 @@ interface MentionInputProps {
 }
 
 export const MentionInput: React.FC<MentionInputProps> = ({
-  value,
   onChange,
   onKeyPress,
   placeholder,
@@ -35,7 +33,7 @@ export const MentionInput: React.FC<MentionInputProps> = ({
   const [currentText, setCurrentText] = useState('');
   const inputRef = useRef<HTMLDivElement>(null);
 
-  const { contacts, setQuery } = useMentions(session?.sessionId || '');
+  const { contacts, setQuery } = useMentions(session?.sessionId || '', 500); // 500ms debounce
 
   const detectMention = (text: string, cursorPosition: number) => {
     const beforeCursor = text.slice(0, cursorPosition);
@@ -147,11 +145,6 @@ export const MentionInput: React.FC<MentionInputProps> = ({
     onChange(actualText);
   };
 
-  const removeMention = (mentionId: string) => {
-    const updatedMentions = mentions.filter(m => m.id !== mentionId);
-    setMentions(updatedMentions);
-    updateValue(currentText, updatedMentions);
-  };
 
   return (
     <div className="relative">
