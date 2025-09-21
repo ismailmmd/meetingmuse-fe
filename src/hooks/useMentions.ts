@@ -7,7 +7,6 @@ export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
   const [query, setQuery] = useState('');
 
   const searchContacts = useCallback(async (searchQuery: string) => {
-    console.log('searchContacts called with:', { searchQuery, sessionId });
 
     if (!searchQuery.trim() || !sessionId) {
       setContacts([]);
