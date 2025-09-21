@@ -76,7 +76,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       query: afterAt,
     };
 
-    console.log('Mention result:', result);
     return result;
   };
 
