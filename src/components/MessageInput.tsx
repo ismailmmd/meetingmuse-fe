@@ -66,7 +66,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     const afterAt = beforeCursor.slice(atIndex + 1);
     const hasSpace = afterAt.includes(' ');
 
-    console.log('afterAt:', afterAt, 'hasSpace:', hasSpace);
 
     if (hasSpace) {
       return null;
