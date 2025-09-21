@@ -29,7 +29,6 @@ export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
     // Debounce the API call - waits 300ms after user stops typing
     const timeoutId = setTimeout(() => {
       if (query.trim()) {
-        console.log('Debounced API call triggered for query:', query);
         searchContacts(query);
       } else {
         setContacts([]);
