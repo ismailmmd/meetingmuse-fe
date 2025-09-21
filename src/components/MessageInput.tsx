@@ -83,7 +83,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     const newMessage = e.target.value;
     const cursorPosition = e.target.selectionStart;
 
-    console.log('Input changed:', { newMessage, cursorPosition });
     setDisplayMessage(newMessage);
     setMessage(newMessage); // This will be updated when mentions are selected
 
