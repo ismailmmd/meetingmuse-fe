@@ -44,7 +44,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   };
 
   const detectMention = (text: string, cursorPosition: number) => {
-    console.log('detectMention called:', { text, cursorPosition });
 
     const beforeCursor = text.slice(0, cursorPosition);
     const atIndex = beforeCursor.lastIndexOf('@');
