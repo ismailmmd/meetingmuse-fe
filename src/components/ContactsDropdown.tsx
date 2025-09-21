@@ -16,7 +16,6 @@ export const ContactsDropdown: React.FC<ContactsDropdownProps> = ({
   position,
   loading = false,
 }) => {
-  console.log('ContactsDropdown render:', { visible, contactsLength: contacts.length, position, loading });
 
   if (!visible) {
     return null;
