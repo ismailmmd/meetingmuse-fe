@@ -58,7 +58,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     const charBeforeAt = atIndex > 0 ? beforeCursor[atIndex - 1] : ' ';
     const isAtStartOfWord = charBeforeAt === ' ' || charBeforeAt === '\n' || atIndex === 0;
 
-    console.log('charBeforeAt:', charBeforeAt, 'isAtStartOfWord:', isAtStartOfWord);
 
     if (!isAtStartOfWord) {
       console.log('@ is not at start of word, ignoring');
