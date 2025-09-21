@@ -20,7 +20,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   onSend,
   disabled = false,
 }) => {
-  console.log('MessageInput component rendered with mentions functionality');
   const { session } = useAuth();
   const [message, setMessage] = useState('');
   const [displayMessage, setDisplayMessage] = useState('');
