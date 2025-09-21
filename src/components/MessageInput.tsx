@@ -60,7 +60,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
 
     if (!isAtStartOfWord) {
-      console.log('@ is not at start of word, ignoring');
       return null;
     }
 
