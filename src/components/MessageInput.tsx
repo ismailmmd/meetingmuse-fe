@@ -94,7 +94,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       setQuery(mention.query);
       setShowDropdown(true);
 
-      console.log('Showing dropdown for mention:', mention);
     } else {
       setShowDropdown(false);
       setMentionStart(-1);
