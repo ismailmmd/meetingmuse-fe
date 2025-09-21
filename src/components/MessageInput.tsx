@@ -48,7 +48,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     const beforeCursor = text.slice(0, cursorPosition);
     const atIndex = beforeCursor.lastIndexOf('@');
 
-    console.log('beforeCursor:', beforeCursor, 'atIndex:', atIndex);
 
     if (atIndex === -1) {
       console.log('No @ found');
