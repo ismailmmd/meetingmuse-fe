@@ -43,7 +43,6 @@ export class ContactsService {
       
       // Validate response structure and handle different formats
       if (!data) {
-        console.warn('Empty response from contacts API');
         return [];
       }
 
