@@ -39,7 +39,6 @@ export class ContactsService {
       }
 
       const data = await response.json();
-      console.log('Contacts API response:', data);
       
       // Validate response structure and handle different formats
       if (!data) {
