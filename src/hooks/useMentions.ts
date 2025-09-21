@@ -16,7 +16,6 @@ export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
     setLoading(true);
     try {
       const results = await ContactsService.searchContacts(searchQuery, sessionId);
-      console.log('Search results:', results);
       setContacts(results);
     } catch (error) {
       console.error('Error searching contacts:', error);
