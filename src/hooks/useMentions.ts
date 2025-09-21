@@ -41,7 +41,6 @@ export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
 
     // Cleanup function: cancel the timeout if query changes before 300ms
     return () => {
-      console.log('Debounce timeout cleared for query:', query);
       clearTimeout(timeoutId);
     };
   }, [query, searchContacts, debounceDelay]);
