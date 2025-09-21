@@ -1,4 +1,15 @@
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useRef, useEffect } from 'react';
+import { ContactsDropdown } from './ContactsDropdown';
+import { EmailChip } from './EmailChip';
+import { useMentions } from '../hooks/useMentions';
+import { Contact } from '../services/ContactsService';
+import { useAuth } from '../contexts/AuthContext';
+
+interface MentionedContact {
+  id: string;
+  name: string;
+  email: string;
+}
 
 interface MessageInputProps {
   onSend: (message: string) => void;
@@ -9,31 +20,204 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   onSend,
   disabled = false,
 }) => {
+  const { session } = useAuth();
   const [message, setMessage] = useState('');
+  const [displayMessage, setDisplayMessage] = useState('');
+  const [mentions, setMentions] = useState<MentionedContact[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [dropdownPosition] = useState({ top: 0, left: 0 });
+  const [mentionStart, setMentionStart] = useState(-1);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { contacts, setQuery, loading } = useMentions(session?.sessionId || '', 500); // 500ms debounce
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
+      // Send the actual message with emails, not the display version
       onSend(message.trim());
       setMessage('');
+      setDisplayMessage('');
+      setMentions([]);
+      setShowDropdown(false);
+      setMentionStart(-1);
     }
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const detectMention = (text: string, cursorPosition: number) => {
+
+    const beforeCursor = text.slice(0, cursorPosition);
+    const atIndex = beforeCursor.lastIndexOf('@');
+
+
+    if (atIndex === -1) {
+      console.log('No @ found');
+      return null;
+    }
+
+    // Check if @ is at the start of a word (preceded by space, start of string, or newline)
+    const charBeforeAt = atIndex > 0 ? beforeCursor[atIndex - 1] : ' ';
+    const isAtStartOfWord = charBeforeAt === ' ' || charBeforeAt === '\n' || atIndex === 0;
+
+
+    if (!isAtStartOfWord) {
+      return null;
+    }
+
+    const afterAt = beforeCursor.slice(atIndex + 1);
+    const hasSpace = afterAt.includes(' ');
+
+
+    if (hasSpace) {
+      return null;
+    }
+
+    const result = {
+      start: atIndex,
+      query: afterAt,
+    };
+
+    return result;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newMessage = e.target.value;
+    const cursorPosition = e.target.selectionStart;
+
+    setDisplayMessage(newMessage);
+    setMessage(newMessage); // This will be updated when mentions are selected
+
+    const mention = detectMention(newMessage, cursorPosition);
+
+    if (mention) {
+      console.log('Mention detected:', mention);
+      setMentionStart(mention.start);
+      setQuery(mention.query);
+      setShowDropdown(true);
+
+    } else {
+      setShowDropdown(false);
+      setMentionStart(-1);
+      setQuery('');
+    }
+  };
+
+  const handleContactSelect = (contact: Contact) => {
+    if (mentionStart === -1) return;
+
+    const beforeMention = displayMessage.slice(0, mentionStart);
+    const afterMention = displayMessage.slice(mentionStart);
+    const afterAt = afterMention.indexOf(' ');
+    const remainingText = afterAt !== -1 ? afterMention.slice(afterAt) : '';
+
+    const contactName = contact.name || contact.email;
+
+    // Create new mention object
+    const newMention: MentionedContact = {
+      id: `mention-${Date.now()}`,
+      name: contactName,
+      email: contact.email,
+    };
+
+    // Update display message with contact name
+    const newDisplayMessage = `${beforeMention}${contactName}${remainingText}`;
+    setDisplayMessage(newDisplayMessage);
+
+    // Update actual message with email (without leading @)
+    const newActualMessage = `${beforeMention}${contact.email}${remainingText}`;
+    setMessage(newActualMessage);
+
+    // Add to mentions list
+    setMentions(prev => [...prev, newMention]);
+
+    setShowDropdown(false);
+    setMentionStart(-1);
+    setQuery('');
+
+    // Focus back to textarea
+    setTimeout(() => {
+      if (textareaRef.current) {
+        const newCursorPosition = beforeMention.length + contactName.length;
+        textareaRef.current.focus();
+        textareaRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+      }
+    }, 0);
+  };
+
+  const removeMention = (mentionId: string) => {
+    const mentionToRemove = mentions.find(m => m.id === mentionId);
+    if (!mentionToRemove) return;
+
+    // Remove from mentions list
+    setMentions(prev => prev.filter(m => m.id !== mentionId));
+
+    // Replace the mention in both display and actual message
+    const updatedDisplayMessage = displayMessage.replace(mentionToRemove.name, '');
+    const updatedActualMessage = message.replace(mentionToRemove.email, '');
+
+    setDisplayMessage(updatedDisplayMessage);
+    setMessage(updatedActualMessage);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (showDropdown && (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')) {
+      e.preventDefault();
+      return;
+    }
+
+    if (e.key === 'Escape' && showDropdown) {
+      setShowDropdown(false);
+      setMentionStart(-1);
+      setQuery('');
+      return;
+    }
+
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
 
+  // Hide dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (target && !target.closest('[data-mention-dropdown]') && !target.closest('textarea')) {
+        setShowDropdown(false);
+        setMentionStart(-1);
+        setQuery('');
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [showDropdown, setQuery]);
+
   return (
     <div className="border-t border-gray-200/50 p-3 sm:p-4 bg-white/60 backdrop-blur-sm">
       <div className="flex space-x-2 sm:space-x-3 items-end max-w-4xl mx-auto">
         {/* Input Container */}
         <div className="flex-1 relative">
+          {/* Mention chips display */}
+          {mentions.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-2 p-2 bg-gray-50 rounded-lg">
+              {mentions.map((mention) => (
+                <EmailChip
+                  key={mention.id}
+                  name={mention.name}
+                  email={mention.email}
+                  onRemove={() => removeMention(mention.id)}
+                />
+              ))}
+            </div>
+          )}
+
           <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
+            ref={textareaRef}
+            value={displayMessage}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             placeholder={
               disabled
                 ? 'Connecting...'
@@ -51,9 +235,16 @@ export const MessageInput: React.FC<MessageInputProps> = ({
               placeholder:text-gray-400 text-sm sm:text-base
             `}
             rows={1}
-            style={{ 
+            style={{
               lineHeight: '1.4'
             }}
+          />
+          <ContactsDropdown
+            contacts={contacts}
+            onSelect={handleContactSelect}
+            visible={showDropdown}
+            position={dropdownPosition}
+            loading={loading}
           />
         </div>
         

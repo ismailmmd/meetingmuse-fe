@@ -4,17 +4,22 @@ import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
 import { useAuth } from '../contexts/AuthContext';
 import { DisplayMessage } from '../types/message';
+import { generateSessionTitle } from '../utils/titleGenerator';
 
 export const ChatApp: React.FC = () => {
   const { user, session, logout } = useAuth();
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(true);
+  const [userTitle, setUserTitle] = useState('');
   const wsService = useRef<WebSocketService | null>(null);
 
   useEffect(() => {
     if (!user || !session?.sessionId || !session.clientId) return;
-    
+
+    // Generate user title based on session
+    setUserTitle(generateSessionTitle(session.sessionId));
+
     wsService.current = new WebSocketService(session.clientId, session.sessionId);
 
     wsService.current.onStatusChange((status) => {
@@ -141,7 +146,7 @@ export const ChatApp: React.FC = () => {
                     <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
                   </svg>
                 </div>
-                <span className="text-white text-sm font-medium">Anonymous</span>
+                <span className="text-white text-sm font-medium">{userTitle || 'Meeting Muse'}</span>
               </div>
               
               {/* Logout Button */}
