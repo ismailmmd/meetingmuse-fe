@@ -1,4 +1,6 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatApp } from './components/ChatApp';
 import { LoginPage } from './components/LoginPage';
@@ -25,6 +27,8 @@ function App() {
   return (
     <AuthProvider>
       <AppContent />
+      <Analytics />
+      <SpeedInsights />
     </AuthProvider>
   );
 }
