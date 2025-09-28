@@ -35,19 +35,20 @@ export const ChatApp: React.FC = () => {
         type:
           'type' in data && data.type === 'error'
             ? 'error'
-            : 'type' in data && data.type === 'system'
+            : 'type' in data && data.type === 'system_message'
               ? 'system'
               : 'ai',
-        content: 
-          'content' in data ? data.content : 
-          'message' in data ? data.message : 
+        content:
+          'content' in data ? data.content :
+          'message' in data ? data.message :
           'Unknown message',
         timestamp: data.timestamp || new Date().toISOString(),
+        ui_elements: 'ui_elements' in data ? data.ui_elements : undefined,
       };
 
       setMessages((prev) => {
         // Remove any existing processing messages when a new message arrives
-        const filteredMessages = prev.filter(msg => 
+        const filteredMessages = prev.filter(msg =>
           !(msg.type === 'system' && msg.content.toLowerCase() === 'processing')
         );
         return [...filteredMessages, displayMessage];
@@ -87,6 +88,24 @@ export const ChatApp: React.FC = () => {
         )
       );
     }, 100);
+  };
+
+  const handleButtonClick = (value: string, _actionType: string) => {
+    if (!wsService.current || !connected) return;
+
+    // Send the button value back to the server
+    wsService.current.sendMessage(value);
+
+    // Add a user message showing what button was clicked
+    const buttonMessage: DisplayMessage = {
+      id: `button-${Date.now()}`,
+      type: 'user',
+      content: value,
+      timestamp: new Date().toISOString(),
+      status: 'sent',
+    };
+
+    setMessages((prev) => [...prev, buttonMessage]);
   };
 
   const getStatusText = () => {
@@ -167,7 +186,7 @@ export const ChatApp: React.FC = () => {
 
       {/* Chat Container - Mobile optimized */}
       <div className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm border-t border-white/20" style={{ minHeight: 0 }}>
-        <MessageList messages={messages} />
+        <MessageList messages={messages} onButtonClick={handleButtonClick} />
         <MessageInput onSend={handleSend} disabled={!connected} />
       </div>
     </div>

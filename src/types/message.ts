@@ -5,14 +5,28 @@ export interface UserMessage {
   session_id: string;
 }
 
+export interface UIButton {
+  action_type: string;
+  label: string;
+  value: string;
+  variant: 'primary' | 'secondary' | 'danger';
+}
+
+export interface UIElements {
+  buttons?: UIButton[];
+}
+
 export interface BotResponse {
+  type: 'bot_response';
   content: string;
   timestamp: string;
   session_id: string;
+  metadata?: Record<string, unknown> | null;
+  ui_elements?: UIElements;
 }
 
 export interface SystemMessage {
-  type: 'system';
+  type: 'system_message';
   content: string;
   timestamp: string;
   metadata?: Record<string, unknown>;
@@ -34,4 +48,5 @@ export interface DisplayMessage {
   content: string;
   timestamp: string;
   status?: 'sending' | 'sent' | 'error';
+  ui_elements?: UIElements;
 }

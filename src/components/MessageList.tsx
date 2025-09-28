@@ -4,9 +4,10 @@ import { DisplayMessage } from '../types/message';
 
 interface MessageListProps {
   messages: DisplayMessage[];
+  onButtonClick?: (value: string, actionType: string) => void;
 }
 
-export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
+export const MessageList: React.FC<MessageListProps> = ({ messages, onButtonClick }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -67,7 +68,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
       ) : (
         <div className="p-3 sm:p-4 lg:p-6 space-y-1">
           {messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
+            <MessageBubble key={message.id} message={message} onButtonClick={onButtonClick} />
           ))}
           <div ref={messagesEndRef} />
         </div>
