@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DisplayMessage } from '../types/message';
 
 interface MessageBubbleProps {
   message: DisplayMessage;
+  onButtonClick?: (value: string, actionType: string) => void;
 }
 
-export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
+export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onButtonClick }) => {
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const isUser = message.type === 'user';
   const isError = message.type === 'error';
   const isSystem = message.type === 'system';
@@ -75,18 +77,47 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
           )}
         </div>
         
+        {/* UI Elements (Buttons) */}
+        {message.ui_elements?.buttons && message.ui_elements.buttons.length > 0 && onButtonClick && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <div className="flex flex-wrap gap-2">
+              {message.ui_elements.buttons.map((button, index) => (
+                <button
+                  key={index}
+                  disabled={buttonsDisabled}
+                  onClick={() => {
+                    setButtonsDisabled(true);
+                    onButtonClick(button.value, button.action_type);
+                  }}
+                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                    buttonsDisabled
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : button.variant === 'primary'
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                      : button.variant === 'danger'
+                      ? 'bg-red-500 hover:bg-red-600 text-white'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300'
+                  }`}
+                >
+                  {button.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Timestamp and Status */}
         <div className="flex items-center justify-between mt-2">
           <div
             className={`text-xs ${
-              isUser 
-                ? 'text-blue-100' 
-                : isError 
-                  ? 'text-red-500' 
+              isUser
+                ? 'text-blue-100'
+                : isError
+                  ? 'text-red-500'
                   : isProcessing
                     ? 'text-blue-600'
-                    : isSystem 
-                      ? 'text-amber-600' 
+                    : isSystem
+                      ? 'text-amber-600'
                       : 'text-gray-500'
             }`}
           >
