@@ -2,9 +2,13 @@ import React from 'react';
 
 interface HomePageProps {
   onGetStarted: () => void;
+  onPrivacyClick?: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onGetStarted }) => {
+export const HomePage: React.FC<HomePageProps> = ({
+  onGetStarted,
+  onPrivacyClick,
+}) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
@@ -221,7 +225,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onGetStarted }) => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>Privacy Policy</li>
+                <li>
+                  <button
+                    onClick={onPrivacyClick}
+                    className="hover:text-white transition-colors cursor-pointer"
+                  >
+                    Privacy Policy
+                  </button>
+                </li>
                 <li>Terms of Service</li>
                 <li>Contact Us</li>
               </ul>

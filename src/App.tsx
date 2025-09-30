@@ -5,11 +5,14 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatApp } from './components/ChatApp';
 import { LoginPage } from './components/LoginPage';
 import { HomePage } from './components/HomePage';
+import { PrivacyPage } from './components/PrivacyPage';
 import './index.css';
+
+type PageType = 'home' | 'login' | 'privacy';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
+  const [currentPage, setCurrentPage] = useState<PageType>('home');
 
   if (isLoading) {
     return (
@@ -26,11 +29,20 @@ const AppContent: React.FC = () => {
     return <ChatApp />;
   }
 
-  return showLogin ? (
-    <LoginPage onBack={() => setShowLogin(false)} />
-  ) : (
-    <HomePage onGetStarted={() => setShowLogin(true)} />
-  );
+  switch (currentPage) {
+    case 'login':
+      return <LoginPage onBack={() => setCurrentPage('home')} />;
+    case 'privacy':
+      return <PrivacyPage onBack={() => setCurrentPage('home')} />;
+    case 'home':
+    default:
+      return (
+        <HomePage
+          onGetStarted={() => setCurrentPage('login')}
+          onPrivacyClick={() => setCurrentPage('privacy')}
+        />
+      );
+  }
 };
 
 function App() {
