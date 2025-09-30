@@ -44,7 +44,7 @@ export type Message = UserMessage | BotResponse | SystemMessage | ErrorMessage;
 
 export interface DisplayMessage {
   id: string;
-  type: 'user' | 'ai' | 'system' | 'error';
+  type: 'bot_response' | 'user_message' | 'system_message' | 'error';
   content: string;
   timestamp: string;
   status?: 'sending' | 'sent' | 'error';

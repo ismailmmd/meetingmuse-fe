@@ -11,9 +11,9 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   onButtonClick,
 }) => {
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
-  const isUser = message.type === 'user';
+  const isUser = message.type === 'user_message';
   const isError = message.type === 'error';
-  const isSystem = message.type === 'system';
+  const isSystem = message.type === 'system_message';
   const isProcessing =
     isSystem && message.content.toLowerCase() === 'processing';
   const formatTime = (timestamp: string) => {
