@@ -7,6 +7,7 @@ import React, {
   useCallback,
   ReactNode,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../services/AuthService';
 
 export interface User {
@@ -29,6 +30,8 @@ interface AuthContextType {
   logout: () => Promise<void>;
   isAuthenticated: boolean;
   session: AuthSession | null;
+  authError: string | null;
+  clearAuthError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,9 +51,11 @@ const getClientId = (): string => {
 };
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const checkAuthStatus = async (clientId: string): Promise<void> => {
     try {
@@ -91,7 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const handleAuthCallback = useCallback(async (): Promise<void> => {
     const urlParams = new URLSearchParams(window.location.search);
     const authSuccess = urlParams.get('auth_success');
-    const authError = urlParams.get('auth_error');
+    const errorParam = urlParams.get('auth_error');
 
     if (authSuccess === 'true') {
       // Clear URL parameters
@@ -100,12 +105,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Check auth status to get session info
       const clientId = getClientId();
       await checkAuthStatus(clientId);
-    } else if (authError) {
-      console.error('OAuth authentication error:', authError);
-      // Clear URL parameters
-      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (errorParam) {
+      // Set error message for display
+      setAuthError(errorParam);
+      // Navigate to login page and clear the error params from URL
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete('auth_error');
+      navigate('/login', { replace: true });
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -153,6 +161,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const clearAuthError = useCallback(() => {
+    setAuthError(null);
+  }, []);
+
   const value: AuthContextType = {
     user,
     isLoading,
@@ -160,6 +172,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
     isAuthenticated: !!session?.authenticated && !!user,
     session,
+    authError,
+    clearAuthError,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

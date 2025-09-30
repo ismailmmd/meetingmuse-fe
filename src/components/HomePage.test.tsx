@@ -57,7 +57,7 @@ describe('HomePage', () => {
 
       expect(
         screen.getByRole('heading', {
-          name: /Schedule meetings with.*AI intelligence/i,
+          name: /Say when.*orchestrate.*the rest/i,
         })
       ).toBeInTheDocument();
 

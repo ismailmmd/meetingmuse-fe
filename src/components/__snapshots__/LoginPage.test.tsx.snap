@@ -122,6 +122,9 @@ exports[`LoginPage > Snapshots > should render login page with back link > login
         class="text-center space-y-6"
       >
         <div
+          class="h-[120px] flex items-start"
+        />
+        <div
           class="flex justify-center"
         >
           <div
@@ -251,6 +254,9 @@ exports[`LoginPage > Snapshots > should render login page without back button > 
         class="text-center space-y-6"
       >
         <div
+          class="h-[120px] flex items-start"
+        />
+        <div
           class="flex justify-center"
         >
           <div
@@ -379,6 +385,9 @@ exports[`LoginPage > Snapshots > should render the complete login page correctly
       <div
         class="text-center space-y-6"
       >
+        <div
+          class="h-[120px] flex items-start"
+        />
         <div
           class="flex justify-center"
         >

@@ -12,6 +12,9 @@ export const ChatApp: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(true);
   const [userTitle, setUserTitle] = useState('');
+  const [inputMessage, setInputMessage] = useState('');
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
+  const [hasActiveButtons, setHasActiveButtons] = useState(false);
   const wsService = useRef<WebSocketService | null>(null);
 
   useEffect(() => {
@@ -39,8 +42,8 @@ export const ChatApp: React.FC = () => {
           'type' in data && data.type === 'error'
             ? 'error'
             : 'type' in data && data.type === 'system_message'
-              ? 'system'
-              : 'ai',
+              ? 'system_message'
+              : 'bot_response',
         content:
           'content' in data
             ? data.content
@@ -56,12 +59,15 @@ export const ChatApp: React.FC = () => {
         const filteredMessages = prev.filter(
           (msg) =>
             !(
-              msg.type === 'system' &&
+              msg.type === 'system_message' &&
               msg.content.toLowerCase() === 'processing'
             )
         );
         return [...filteredMessages, displayMessage];
       });
+
+      // Clear waiting state when receiving a response
+      setWaitingForResponse(false);
     });
 
     wsService.current.connect().catch((error) => {
@@ -80,7 +86,7 @@ export const ChatApp: React.FC = () => {
 
     const userMessage: DisplayMessage = {
       id: `user-${Date.now()}`,
-      type: 'user',
+      type: 'user_message',
       content,
       timestamp: new Date().toISOString(),
       status: 'sending',
@@ -89,6 +95,9 @@ export const ChatApp: React.FC = () => {
     setMessages((prev) => [...prev, userMessage]);
 
     wsService.current.sendMessage(content);
+
+    // Clear the input message state after sending
+    setInputMessage('');
 
     setTimeout(() => {
       setMessages((prev) =>
@@ -102,6 +111,17 @@ export const ChatApp: React.FC = () => {
   const handleButtonClick = (value: string, actionType: string) => {
     if (!wsService.current || !connected) return;
 
+
+    // Remove buttons from all messages to re-enable input
+    setMessages((prev) =>
+      prev.map((msg) => ({
+        ...msg,
+        ui_elements: msg.ui_elements
+          ? { ...msg.ui_elements, buttons: undefined }
+          : undefined,
+      }))
+    );
+
     // Send the button value back to the server
     wsService.current.sendMessage(value);
 
@@ -111,7 +131,7 @@ export const ChatApp: React.FC = () => {
     // Add a user message showing what button was clicked
     const buttonMessage: DisplayMessage = {
       id: `button-${Date.now()}`,
-      type: 'user',
+      type: 'user_message',
       content: value,
       timestamp: new Date().toISOString(),
       status: 'sent',
@@ -119,6 +139,18 @@ export const ChatApp: React.FC = () => {
 
     setMessages((prev) => [...prev, buttonMessage]);
   };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputMessage(suggestion);
+  };
+
+  // Check if there are any messages with active buttons
+  useEffect(() => {
+    const hasButtons = messages.some(
+      (msg) => msg.ui_elements?.buttons && msg.ui_elements.buttons.length > 0
+    );
+    setHasActiveButtons(hasButtons);
+  }, [messages]);
 
   const getStatusText = () => {
     if (connecting) return 'Connecting...';
@@ -206,7 +238,7 @@ export const ChatApp: React.FC = () => {
               {/* Logout Button */}
               <button
                 onClick={logout}
-                className="p-2 sm:px-3 sm:py-2 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all duration-200 group"
+                className="flex items-center space-x-1 sm:space-x-2 px-2 py-1 sm:px-3 sm:py-2 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all duration-200 group"
                 title="Logout"
               >
                 <svg
@@ -236,8 +268,20 @@ export const ChatApp: React.FC = () => {
         className="flex-1 flex flex-col bg-white/80 backdrop-blur-sm border-t border-white/20"
         style={{ minHeight: 0 }}
       >
-        <MessageList messages={messages} onButtonClick={handleButtonClick} />
-        <MessageInput onSend={handleSend} disabled={!connected} />
+        <MessageList
+          messages={messages}
+          onButtonClick={handleButtonClick}
+          onSuggestionClick={handleSuggestionClick}
+        />
+        <MessageInput
+          onSend={handleSend}
+          disabled={!connected || waitingForResponse || hasActiveButtons}
+          initialMessage={inputMessage}
+          onMessageChange={setInputMessage}
+          placeholderText={
+            hasActiveButtons ? 'Waiting for input...' : undefined
+          }
+        />
       </div>
     </div>
   );
