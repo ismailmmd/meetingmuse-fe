@@ -37,7 +37,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
   // Debug logging
   useEffect(() => {
-    console.log('MessageInput disabled state:', disabled);
   }, [disabled]);
 
   const { contacts, setQuery, loading } = useMentions(
