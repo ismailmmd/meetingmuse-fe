@@ -106,7 +106,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const clientId = getClientId();
       await checkAuthStatus(clientId);
     } else if (errorParam) {
-      console.error('OAuth authentication error:', errorParam);
       // Set error message for display
       setAuthError(errorParam);
       // Navigate to login page and clear the error params from URL
