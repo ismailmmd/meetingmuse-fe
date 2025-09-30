@@ -6,9 +6,10 @@ import { ChatApp } from './components/ChatApp';
 import { LoginPage } from './components/LoginPage';
 import { HomePage } from './components/HomePage';
 import { PrivacyPage } from './components/PrivacyPage';
+import { TermsPage } from './components/TermsPage';
 import './index.css';
 
-type PageType = 'home' | 'login' | 'privacy';
+type PageType = 'home' | 'login' | 'privacy' | 'terms';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -34,12 +35,15 @@ const AppContent: React.FC = () => {
       return <LoginPage onBack={() => setCurrentPage('home')} />;
     case 'privacy':
       return <PrivacyPage onBack={() => setCurrentPage('home')} />;
+    case 'terms':
+      return <TermsPage onBack={() => setCurrentPage('home')} />;
     case 'home':
     default:
       return (
         <HomePage
           onGetStarted={() => setCurrentPage('login')}
           onPrivacyClick={() => setCurrentPage('privacy')}
+          onTermsClick={() => setCurrentPage('terms')}
         />
       );
   }

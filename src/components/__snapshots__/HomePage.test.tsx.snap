@@ -259,7 +259,11 @@ exports[`HomePage > Snapshots > should match snapshot for footer section 1`] = `
             </button>
           </li>
           <li>
-            Terms of Service
+            <button
+              class="hover:text-white transition-colors cursor-pointer"
+            >
+              Terms of Service
+            </button>
           </li>
           <li>
             Contact Us
@@ -871,7 +875,11 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
               </button>
             </li>
             <li>
-              Terms of Service
+              <button
+                class="hover:text-white transition-colors cursor-pointer"
+              >
+                Terms of Service
+              </button>
             </li>
             <li>
               Contact Us

@@ -3,11 +3,13 @@ import React from 'react';
 interface HomePageProps {
   onGetStarted: () => void;
   onPrivacyClick?: () => void;
+  onTermsClick?: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   onGetStarted,
   onPrivacyClick,
+  onTermsClick,
 }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -233,7 +235,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                     Privacy Policy
                   </button>
                 </li>
-                <li>Terms of Service</li>
+                <li>
+                  <button
+                    onClick={onTermsClick}
+                    className="hover:text-white transition-colors cursor-pointer"
+                  >
+                    Terms of Service
+                  </button>
+                </li>
                 <li>Contact Us</li>
               </ul>
             </div>

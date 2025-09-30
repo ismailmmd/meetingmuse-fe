@@ -6,11 +6,13 @@ import { HomePage } from './HomePage';
 // Mock the callback functions
 const mockOnGetStarted = vi.fn();
 const mockOnPrivacyClick = vi.fn();
+const mockOnTermsClick = vi.fn();
 
 describe('HomePage', () => {
   beforeEach(() => {
     mockOnGetStarted.mockClear();
     mockOnPrivacyClick.mockClear();
+    mockOnTermsClick.mockClear();
   });
 
   describe('Snapshots', () => {
@@ -19,6 +21,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
       expect(container.firstChild).toMatchSnapshot();
@@ -29,6 +32,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
       const header = screen.getByRole('banner');
@@ -40,6 +44,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
       const main = screen.getByRole('main');
@@ -51,6 +56,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
       const footer = screen.getByRole('contentinfo');
@@ -64,6 +70,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -84,6 +91,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
       const svgElements = container.querySelectorAll('svg');
@@ -97,6 +105,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -124,6 +133,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -161,6 +171,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -186,6 +197,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -229,6 +241,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
       const howItWorksSection = screen
@@ -244,6 +257,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -271,6 +285,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -288,6 +303,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -303,6 +319,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -320,6 +337,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -342,6 +360,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -352,6 +371,24 @@ describe('HomePage', () => {
 
       expect(mockOnPrivacyClick).toHaveBeenCalledTimes(1);
     });
+
+    it('should call onTermsClick when Terms of Service link is clicked', async () => {
+      const user = userEvent.setup();
+      render(
+        <HomePage
+          onGetStarted={mockOnGetStarted}
+          onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
+        />
+      );
+
+      const termsButton = screen.getByRole('button', {
+        name: 'Terms of Service',
+      });
+      await user.click(termsButton);
+
+      expect(mockOnTermsClick).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('Accessibility', () => {
@@ -360,6 +397,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -380,6 +418,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -395,6 +434,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -410,6 +450,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
@@ -426,6 +467,7 @@ describe('HomePage', () => {
         <HomePage
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
         />
       );
 
