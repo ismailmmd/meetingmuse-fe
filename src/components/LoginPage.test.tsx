@@ -121,7 +121,9 @@ describe('LoginPage', () => {
           })
         ).toBeInTheDocument();
         expect(
-          screen.getByText('Please sign in to start your conversation')
+          screen.getByText(
+            'Please sign in to start your conversation with our AI meeting assistant'
+          )
         ).toBeInTheDocument();
       });
     });
@@ -493,8 +495,8 @@ describe('LoginPage', () => {
       });
 
       expect(container.innerHTML).toContain('min-h-screen');
-      expect(container.innerHTML).toContain('max-w-md');
-      expect(container.innerHTML).toContain('space-y-8');
+      expect(container.innerHTML).toContain('max-w-4xl');
+      expect(container.innerHTML).toContain('px-4');
     });
 
     it('should include proper styling classes', async () => {
@@ -504,10 +506,10 @@ describe('LoginPage', () => {
         expect(screen.getByText('Welcome to MeetingMuse')).toBeInTheDocument();
       });
 
-      expect(container.innerHTML).toContain('bg-gray-50');
-      expect(container.innerHTML).toContain('bg-white');
-      expect(container.innerHTML).toContain('rounded-lg');
-      expect(container.innerHTML).toContain('shadow-md');
+      expect(container.innerHTML).toContain('bg-gradient-to-br');
+      expect(container.innerHTML).toContain('blue-gradient');
+      expect(container.innerHTML).toContain('glass-effect');
+      expect(container.innerHTML).toContain('rounded-xl');
     });
 
     it('should have proper button styling', async () => {
@@ -534,16 +536,16 @@ describe('LoginPage', () => {
         expect(screen.getByText('Welcome to MeetingMuse')).toBeInTheDocument();
       });
 
-      // Check for main container structure
-      const mainContainer = screen
-        .getByText('Welcome to MeetingMuse')
-        .closest('.min-h-screen');
-      expect(mainContainer).toBeInTheDocument();
+      // Check for header structure
+      expect(screen.getByRole('banner')).toBeInTheDocument();
 
-      // Check for content card structure
+      // Check for main content structure
+      expect(screen.getByRole('main')).toBeInTheDocument();
+
+      // Check for content card with glass-effect
       const contentCard = screen
         .getByText('Welcome to MeetingMuse')
-        .closest('.bg-white');
+        .closest('.glass-effect');
       expect(contentCard).toBeInTheDocument();
     });
   });

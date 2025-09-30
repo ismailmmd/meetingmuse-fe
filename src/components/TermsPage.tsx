@@ -264,7 +264,12 @@ export const TermsPage: React.FC = () => {
                 Questions about these terms? Contact us:
               </p>
               <p className="text-blue-700">
-                <strong>Website:</strong> https://www.meetingmuse.online/
+                <Link
+                  to="/contact"
+                  className="text-blue-600 hover:text-blue-800 underline font-semibold"
+                >
+                  Visit our Contact Page
+                </Link>
               </p>
             </div>
           </section>
