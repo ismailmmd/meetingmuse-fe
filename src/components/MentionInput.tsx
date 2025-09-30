@@ -118,8 +118,12 @@ export const MentionInput: React.FC<MentionInputProps> = ({
         const textNode = inputRef.current.firstChild;
 
         if (textNode) {
-          const newCursorPos = beforeMention.length + (contact.name || contact.email).length;
-          range.setStart(textNode, Math.min(newCursorPos, textNode.textContent?.length || 0));
+          const newCursorPos =
+            beforeMention.length + (contact.name || contact.email).length;
+          range.setStart(
+            textNode,
+            Math.min(newCursorPos, textNode.textContent?.length || 0)
+          );
           range.collapse(true);
           selection?.removeAllRanges();
           selection?.addRange(range);
@@ -130,11 +134,16 @@ export const MentionInput: React.FC<MentionInputProps> = ({
     }, 0);
   };
 
-  const updateValue = (displayText: string, currentMentions: MentionedContact[]) => {
+  const updateValue = (
+    displayText: string,
+    currentMentions: MentionedContact[]
+  ) => {
     let actualText = displayText;
 
     // Replace display names with actual emails in reverse order to maintain indices
-    const sortedMentions = [...currentMentions].sort((a, b) => b.startIndex - a.startIndex);
+    const sortedMentions = [...currentMentions].sort(
+      (a, b) => b.startIndex - a.startIndex
+    );
 
     for (const mention of sortedMentions) {
       const displayName = mention.name;
@@ -144,7 +153,6 @@ export const MentionInput: React.FC<MentionInputProps> = ({
 
     onChange(actualText);
   };
-
 
   return (
     <div className="relative">
@@ -156,15 +164,16 @@ export const MentionInput: React.FC<MentionInputProps> = ({
         className={`
           w-full px-3 py-2 sm:px-4 sm:py-3 resize-none rounded-xl sm:rounded-2xl border-2 transition-all duration-200
           min-h-[44px] max-h-[100px] sm:min-h-[52px] sm:max-h-[120px]
-          ${disabled
-            ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-white border-gray-200 text-gray-800 focus:border-blue-400 focus:bg-white'
+          ${
+            disabled
+              ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-white border-gray-200 text-gray-800 focus:border-blue-400 focus:bg-white'
           }
           focus:outline-none focus:ring-0 shadow-sm hover:shadow-md focus:shadow-lg
           text-sm sm:text-base
         `}
         style={{
-          lineHeight: '1.4'
+          lineHeight: '1.4',
         }}
         suppressContentEditableWarning={true}
       >

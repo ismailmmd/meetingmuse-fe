@@ -6,24 +6,29 @@ export const useMentions = (sessionId: string, debounceDelay: number = 300) => {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  const searchContacts = useCallback(async (searchQuery: string) => {
+  const searchContacts = useCallback(
+    async (searchQuery: string) => {
+      if (!searchQuery.trim() || !sessionId) {
+        setContacts([]);
+        return;
+      }
 
-    if (!searchQuery.trim() || !sessionId) {
-      setContacts([]);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const results = await ContactsService.searchContacts(searchQuery, sessionId);
-      setContacts(results);
-    } catch (error) {
-      console.error('Error searching contacts:', error);
-      setContacts([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [sessionId]);
+      setLoading(true);
+      try {
+        const results = await ContactsService.searchContacts(
+          searchQuery,
+          sessionId
+        );
+        setContacts(results);
+      } catch (error) {
+        console.error('Error searching contacts:', error);
+        setContacts([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [sessionId]
+  );
 
   useEffect(() => {
     // Debounce the API call - waits 300ms after user stops typing

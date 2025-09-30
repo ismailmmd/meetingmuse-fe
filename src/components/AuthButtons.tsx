@@ -22,9 +22,10 @@ export const LoginButton: React.FC = () => {
       disabled={isLoggingIn}
       className={`
         px-6 py-3 rounded-lg font-medium text-white transition-colors
-        ${isLoggingIn
-          ? 'bg-gray-400 cursor-not-allowed'
-          : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800'
+        ${
+          isLoggingIn
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800'
         }
       `}
     >
