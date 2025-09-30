@@ -21,12 +21,15 @@ export const MessageList: React.FC<MessageListProps> = ({
     scrollToBottom();
   }, [messages]);
 
+  const hasUserMessages = messages.some((m) => m.type === 'user_message');
+  const visibleMessages = messages.filter((m) => m.type !== 'system_message');
+
   return (
     <div
       className="flex-1 overflow-y-auto custom-scrollbar"
       style={{ minHeight: 0 }}
     >
-      {messages.length === 0 ? (
+      {!hasUserMessages ? (
         <div className="flex items-center justify-center h-full p-4 sm:p-6 lg:p-8">
           <div className="text-center max-w-sm sm:max-w-md lg:max-w-lg slide-up">
             {/* Welcome Icon */}
@@ -50,7 +53,7 @@ export const MessageList: React.FC<MessageListProps> = ({
               </h3>
               <p className="text-sm sm:text-base text-gray-600 leading-relaxed px-2">
                 I'm your AI meeting assistant. I can help you schedule meetings,
-                manage your calendar, and coordinate with your team.
+                set reminders, and so on.
               </p>
 
               {/* Quick Start Suggestions */}
@@ -60,10 +63,9 @@ export const MessageList: React.FC<MessageListProps> = ({
                 </p>
                 <div className="space-y-2">
                   {[
-                    'Schedule a meeting with my team tomorrow',
-                    'Find a time that works for everyone',
-                    'What meetings do I have this week?',
-                    'Help me plan a quarterly review meeting',
+                    'Schedule a meeting with Chandra tomorrow on next mission',
+                    'Schedule a 30-minute meeting next week with Chaathan',
+                    'Set a 15 min reminder',
                   ].map((suggestion, index) => (
                     <div
                       key={index}
@@ -79,7 +81,7 @@ export const MessageList: React.FC<MessageListProps> = ({
         </div>
       ) : (
         <div className="p-3 sm:p-4 lg:p-6 space-y-1">
-          {messages.map((message) => (
+          {visibleMessages.map((message) => (
             <MessageBubble
               key={message.id}
               message={message}

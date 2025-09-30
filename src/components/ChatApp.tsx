@@ -39,8 +39,8 @@ export const ChatApp: React.FC = () => {
           'type' in data && data.type === 'error'
             ? 'error'
             : 'type' in data && data.type === 'system_message'
-              ? 'system'
-              : 'ai',
+              ? 'system_message'
+              : 'bot_response',
         content:
           'content' in data
             ? data.content
@@ -56,7 +56,7 @@ export const ChatApp: React.FC = () => {
         const filteredMessages = prev.filter(
           (msg) =>
             !(
-              msg.type === 'system' &&
+              msg.type === 'system_message' &&
               msg.content.toLowerCase() === 'processing'
             )
         );
@@ -80,7 +80,7 @@ export const ChatApp: React.FC = () => {
 
     const userMessage: DisplayMessage = {
       id: `user-${Date.now()}`,
-      type: 'user',
+      type: 'user_message',
       content,
       timestamp: new Date().toISOString(),
       status: 'sending',
@@ -111,7 +111,7 @@ export const ChatApp: React.FC = () => {
     // Add a user message showing what button was clicked
     const buttonMessage: DisplayMessage = {
       id: `button-${Date.now()}`,
-      type: 'user',
+      type: 'user_message',
       content: value,
       timestamp: new Date().toISOString(),
       status: 'sent',
