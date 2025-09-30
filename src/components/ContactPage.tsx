@@ -171,15 +171,15 @@ export const ContactPage: React.FC = () => {
 
         <div className="border-t pt-6 mt-8">
           <p className="text-sm text-gray-500 text-center">
-            For technical issues or feature requests, please visit our website
-            at{' '}
+            For technical issues or feature requests, please visit our github
+            page at{' '}
             <a
-              href={EXTERNAL_LINKS.WEBSITE}
+              href={EXTERNAL_LINKS.GITHUB_ISSUES}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800 underline"
             >
-              {EXTERNAL_LINKS.WEBSITE}
+              {EXTERNAL_LINKS.GITHUB_ISSUES}
             </a>
             <br />
             {COPYRIGHT_TEXT}

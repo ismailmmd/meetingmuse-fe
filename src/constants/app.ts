@@ -16,6 +16,7 @@ export const ROUTES = {
 // External Links
 export const EXTERNAL_LINKS = {
   WEBSITE: 'https://www.meetingmuse.online',
+  GITHUB_ISSUES: 'https://github.com/thisisarjun/meetingmuse/issues',
   GOOGLE_PERMISSIONS: 'https://myaccount.google.com/permissions',
   GOOGLE_API_POLICY:
     'https://developers.google.com/terms/api-services-user-data-policy',
