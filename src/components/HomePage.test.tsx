@@ -7,12 +7,14 @@ import { HomePage } from './HomePage';
 const mockOnGetStarted = vi.fn();
 const mockOnPrivacyClick = vi.fn();
 const mockOnTermsClick = vi.fn();
+const mockOnContactClick = vi.fn();
 
 describe('HomePage', () => {
   beforeEach(() => {
     mockOnGetStarted.mockClear();
     mockOnPrivacyClick.mockClear();
     mockOnTermsClick.mockClear();
+    mockOnContactClick.mockClear();
   });
 
   describe('Snapshots', () => {
@@ -22,6 +24,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
       expect(container.firstChild).toMatchSnapshot();
@@ -33,6 +36,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
       const header = screen.getByRole('banner');
@@ -45,6 +49,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
       const main = screen.getByRole('main');
@@ -57,6 +62,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
       const footer = screen.getByRole('contentinfo');
@@ -71,6 +77,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -92,6 +99,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
       const svgElements = container.querySelectorAll('svg');
@@ -106,6 +114,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -134,6 +143,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -172,6 +182,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -198,6 +209,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -242,6 +254,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
       const howItWorksSection = screen
@@ -258,6 +271,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -286,6 +300,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -304,6 +319,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -320,6 +336,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -338,6 +355,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -361,6 +379,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -379,6 +398,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -389,6 +409,25 @@ describe('HomePage', () => {
 
       expect(mockOnTermsClick).toHaveBeenCalledTimes(1);
     });
+
+    it('should call onContactClick when Contact Us link is clicked', async () => {
+      const user = userEvent.setup();
+      render(
+        <HomePage
+          onGetStarted={mockOnGetStarted}
+          onPrivacyClick={mockOnPrivacyClick}
+          onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
+        />
+      );
+
+      const contactButton = screen.getByRole('button', {
+        name: 'Contact Us',
+      });
+      await user.click(contactButton);
+
+      expect(mockOnContactClick).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('Accessibility', () => {
@@ -398,6 +437,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -419,6 +459,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -435,6 +476,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -451,6 +493,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 
@@ -468,6 +511,7 @@ describe('HomePage', () => {
           onGetStarted={mockOnGetStarted}
           onPrivacyClick={mockOnPrivacyClick}
           onTermsClick={mockOnTermsClick}
+          onContactClick={mockOnContactClick}
         />
       );
 

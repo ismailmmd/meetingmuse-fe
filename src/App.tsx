@@ -7,9 +7,10 @@ import { LoginPage } from './components/LoginPage';
 import { HomePage } from './components/HomePage';
 import { PrivacyPage } from './components/PrivacyPage';
 import { TermsPage } from './components/TermsPage';
+import { ContactPage } from './components/ContactPage';
 import './index.css';
 
-type PageType = 'home' | 'login' | 'privacy' | 'terms';
+type PageType = 'home' | 'login' | 'privacy' | 'terms' | 'contact';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -37,6 +38,8 @@ const AppContent: React.FC = () => {
       return <PrivacyPage onBack={() => setCurrentPage('home')} />;
     case 'terms':
       return <TermsPage onBack={() => setCurrentPage('home')} />;
+    case 'contact':
+      return <ContactPage onBack={() => setCurrentPage('home')} />;
     case 'home':
     default:
       return (
@@ -44,6 +47,7 @@ const AppContent: React.FC = () => {
           onGetStarted={() => setCurrentPage('login')}
           onPrivacyClick={() => setCurrentPage('privacy')}
           onTermsClick={() => setCurrentPage('terms')}
+          onContactClick={() => setCurrentPage('contact')}
         />
       );
   }

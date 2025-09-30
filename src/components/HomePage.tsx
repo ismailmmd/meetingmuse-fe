@@ -4,12 +4,14 @@ interface HomePageProps {
   onGetStarted: () => void;
   onPrivacyClick?: () => void;
   onTermsClick?: () => void;
+  onContactClick?: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   onGetStarted,
   onPrivacyClick,
   onTermsClick,
+  onContactClick,
 }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -243,7 +245,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                     Terms of Service
                   </button>
                 </li>
-                <li>Contact Us</li>
+                <li>
+                  <button
+                    onClick={onContactClick}
+                    className="hover:text-white transition-colors cursor-pointer"
+                  >
+                    Contact Us
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
