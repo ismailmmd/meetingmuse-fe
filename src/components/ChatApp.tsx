@@ -149,7 +149,6 @@ export const ChatApp: React.FC = () => {
     const hasButtons = messages.some(
       (msg) => msg.ui_elements?.buttons && msg.ui_elements.buttons.length > 0
     );
-    console.log('Checking for active buttons:', hasButtons);
     setHasActiveButtons(hasButtons);
   }, [messages]);
 
