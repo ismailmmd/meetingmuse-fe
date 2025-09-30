@@ -97,7 +97,9 @@ exports[`HomePage > Features Section > should match snapshot for individual feat
   <p
     class="text-gray-600"
   >
-    Just tell MeetingMuse what you need. No complex forms or rigid interfaces - chat naturally about your meeting requirements.
+    Just tell 
+    MeetingMuse
+     what you need. No complex forms or rigid interfaces - chat naturally about your meeting requirements.
   </p>
 </div>
 `;
@@ -109,7 +111,9 @@ exports[`HomePage > How It Works Section > should match snapshot for how it work
   <h3
     class="text-3xl font-bold text-gray-900 mb-12"
   >
-    How MeetingMuse Works
+    How 
+    MeetingMuse
+     Works
   </h3>
   <div
     class="grid md:grid-cols-3 gap-8"
@@ -134,7 +138,9 @@ exports[`HomePage > How It Works Section > should match snapshot for how it work
       <p
         class="text-gray-600"
       >
-        Tell MeetingMuse about your meeting needs in plain English
+        Tell 
+        MeetingMuse
+         about your meeting needs in plain English
       </p>
     </div>
     <div
@@ -332,7 +338,7 @@ exports[`HomePage > Snapshots > should match snapshot for header section 1`] = `
         </div>
       </div>
       <a
-        class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30 inline-block text-center"
+        class="inline-block text-center font-semibold rounded-lg transition-all duration-200 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white px-6 py-3 text-base "
         data-discover="true"
         href="/login"
       >
@@ -365,10 +371,12 @@ exports[`HomePage > Snapshots > should match snapshot for main content section 1
       <p
         class="text-xl text-gray-600 max-w-3xl mx-auto mb-8"
       >
-        Simply describe your meeting needs in natural language. MeetingMuse understands your requirements and handles the scheduling automatically.
+        Simply describe your meeting needs in natural language.
+        MeetingMuse
+         understands your requirements and handles the scheduling automatically.
       </p>
       <a
-        class="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block text-center"
+        class="inline-block text-center font-semibold rounded-lg transition-all duration-200 blue-gradient text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 px-8 py-4 text-lg "
         data-discover="true"
         href="/login"
       >
@@ -406,7 +414,9 @@ exports[`HomePage > Snapshots > should match snapshot for main content section 1
         <p
           class="text-gray-600"
         >
-          Just tell MeetingMuse what you need. No complex forms or rigid interfaces - chat naturally about your meeting requirements.
+          Just tell 
+          MeetingMuse
+           what you need. No complex forms or rigid interfaces - chat naturally about your meeting requirements.
         </p>
       </div>
       <div
@@ -478,7 +488,9 @@ exports[`HomePage > Snapshots > should match snapshot for main content section 1
       <h3
         class="text-3xl font-bold text-gray-900 mb-12"
       >
-        How MeetingMuse Works
+        How 
+        MeetingMuse
+         Works
       </h3>
       <div
         class="grid md:grid-cols-3 gap-8"
@@ -503,7 +515,9 @@ exports[`HomePage > Snapshots > should match snapshot for main content section 1
           <p
             class="text-gray-600"
           >
-            Tell MeetingMuse about your meeting needs in plain English
+            Tell 
+            MeetingMuse
+             about your meeting needs in plain English
           </p>
         </div>
         <div
@@ -601,7 +615,7 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
           </div>
         </div>
         <a
-          class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30 inline-block text-center"
+          class="inline-block text-center font-semibold rounded-lg transition-all duration-200 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white px-6 py-3 text-base "
           data-discover="true"
           href="/login"
         >
@@ -631,10 +645,12 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
         <p
           class="text-xl text-gray-600 max-w-3xl mx-auto mb-8"
         >
-          Simply describe your meeting needs in natural language. MeetingMuse understands your requirements and handles the scheduling automatically.
+          Simply describe your meeting needs in natural language.
+          MeetingMuse
+           understands your requirements and handles the scheduling automatically.
         </p>
         <a
-          class="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block text-center"
+          class="inline-block text-center font-semibold rounded-lg transition-all duration-200 blue-gradient text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 px-8 py-4 text-lg "
           data-discover="true"
           href="/login"
         >
@@ -672,7 +688,9 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
           <p
             class="text-gray-600"
           >
-            Just tell MeetingMuse what you need. No complex forms or rigid interfaces - chat naturally about your meeting requirements.
+            Just tell 
+            MeetingMuse
+             what you need. No complex forms or rigid interfaces - chat naturally about your meeting requirements.
           </p>
         </div>
         <div
@@ -744,7 +762,9 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
         <h3
           class="text-3xl font-bold text-gray-900 mb-12"
         >
-          How MeetingMuse Works
+          How 
+          MeetingMuse
+           Works
         </h3>
         <div
           class="grid md:grid-cols-3 gap-8"
@@ -769,7 +789,9 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
             <p
               class="text-gray-600"
             >
-              Tell MeetingMuse about your meeting needs in plain English
+              Tell 
+              MeetingMuse
+               about your meeting needs in plain English
             </p>
           </div>
           <div
