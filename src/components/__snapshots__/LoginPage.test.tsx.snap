@@ -20,8 +20,10 @@ exports[`LoginPage > OAuth Login Functionality > should match snapshot for loadi
 `;
 
 exports[`LoginPage > Snapshots > should match snapshot for back button when present > back-button 1`] = `
-<button
+<a
   class="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+  data-discover="true"
+  href="/"
 >
   <svg
     class="w-4 h-4 mr-2"
@@ -37,7 +39,30 @@ exports[`LoginPage > Snapshots > should match snapshot for back button when pres
     />
   </svg>
   Back to Home
-</button>
+</a>
+`;
+
+exports[`LoginPage > Snapshots > should match snapshot for back link > back-link 1`] = `
+<a
+  class="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+  data-discover="true"
+  href="/"
+>
+  <svg
+    class="w-4 h-4 mr-2"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M15 19l-7-7 7-7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+    />
+  </svg>
+  Back to Home
+</a>
 `;
 
 exports[`LoginPage > Snapshots > should match snapshot for main content card > login-content-card 1`] = `
@@ -98,8 +123,10 @@ exports[`LoginPage > Snapshots > should render login page with back button > log
   <div
     class="max-w-md w-full space-y-8 p-8"
   >
-    <button
+    <a
       class="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+      data-discover="true"
+      href="/"
     >
       <svg
         class="w-4 h-4 mr-2"
@@ -115,7 +142,100 @@ exports[`LoginPage > Snapshots > should render login page with back button > log
         />
       </svg>
       Back to Home
-    </button>
+    </a>
+    <div
+      class="text-center"
+    >
+      <h1
+        class="text-4xl font-bold text-gray-900 mb-2"
+      >
+        MeetingMuse
+      </h1>
+    </div>
+    <div
+      class="bg-white p-8 rounded-lg shadow-md"
+    >
+      <div
+        class="text-center space-y-6"
+      >
+        <div
+          class="flex justify-center"
+        >
+          <div
+            class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center"
+          >
+            <svg
+              class="w-8 h-8 text-blue-600"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"
+              />
+              <path
+                d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <h2
+            class="text-xl font-semibold text-gray-900 mb-2"
+          >
+            Welcome to MeetingMuse
+          </h2>
+          <p
+            class="text-gray-600 mb-6"
+          >
+            Please sign in to start your conversation
+          </p>
+        </div>
+        <button
+          class="
+        px-6 py-3 rounded-lg font-medium text-white transition-colors
+        bg-blue-600 hover:bg-blue-700 active:bg-blue-800
+      "
+        >
+          Sign in with OAuth
+        </button>
+      </div>
+    </div>
+    <p
+      class="text-center text-sm text-gray-500"
+    >
+      Secure authentication powered by Google OAuth 2.0
+    </p>
+  </div>
+</div>
+`;
+
+exports[`LoginPage > Snapshots > should render login page with back link > login-page-with-back-link 1`] = `
+<div
+  class="min-h-screen bg-gray-50 flex flex-col justify-center items-center"
+>
+  <div
+    class="max-w-md w-full space-y-8 p-8"
+  >
+    <a
+      class="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+      data-discover="true"
+      href="/"
+    >
+      <svg
+        class="w-4 h-4 mr-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M15 19l-7-7 7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+      Back to Home
+    </a>
     <div
       class="text-center"
     >
@@ -189,6 +309,26 @@ exports[`LoginPage > Snapshots > should render login page without back button > 
   <div
     class="max-w-md w-full space-y-8 p-8"
   >
+    <a
+      class="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+      data-discover="true"
+      href="/"
+    >
+      <svg
+        class="w-4 h-4 mr-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M15 19l-7-7 7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+      Back to Home
+    </a>
     <div
       class="text-center"
     >
@@ -262,6 +402,26 @@ exports[`LoginPage > Snapshots > should render the complete login page correctly
   <div
     class="max-w-md w-full space-y-8 p-8"
   >
+    <a
+      class="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+      data-discover="true"
+      href="/"
+    >
+      <svg
+        class="w-4 h-4 mr-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M15 19l-7-7 7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+      Back to Home
+    </a>
     <div
       class="text-center"
     >

@@ -1,35 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { LoginButton } from './AuthButtons';
 
-interface LoginPageProps {
-  onBack?: () => void;
-}
-
-export const LoginPage: React.FC<LoginPageProps> = ({ onBack }) => {
+export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
       <div className="max-w-md w-full space-y-8 p-8">
-        {onBack && (
-          <button
-            onClick={onBack}
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+        <Link
+          to="/"
+          className="flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4"
+        >
+          <svg
+            className="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back to Home
-          </button>
-        )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </Link>
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">MeetingMuse</h1>
         </div>

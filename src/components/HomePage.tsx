@@ -1,18 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-interface HomePageProps {
-  onGetStarted: () => void;
-  onPrivacyClick?: () => void;
-  onTermsClick?: () => void;
-  onContactClick?: () => void;
-}
-
-export const HomePage: React.FC<HomePageProps> = ({
-  onGetStarted,
-  onPrivacyClick,
-  onTermsClick,
-  onContactClick,
-}) => {
+export const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
@@ -38,12 +27,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </p>
               </div>
             </div>
-            <button
-              onClick={onGetStarted}
-              className="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30"
+            <Link
+              to="/login"
+              className="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30 inline-block text-center"
             >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -65,12 +54,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               MeetingMuse understands your requirements and handles the
               scheduling automatically.
             </p>
-            <button
-              onClick={onGetStarted}
-              className="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1"
+            <Link
+              to="/login"
+              className="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block text-center"
             >
               Start Scheduling
-            </button>
+            </Link>
           </div>
 
           {/* Features Grid */}
@@ -230,28 +219,28 @@ export const HomePage: React.FC<HomePageProps> = ({
               <h4 className="text-lg font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <button
-                    onClick={onPrivacyClick}
+                  <Link
+                    to="/privacy"
                     className="hover:text-white transition-colors cursor-pointer"
                   >
                     Privacy Policy
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={onTermsClick}
+                  <Link
+                    to="/terms"
                     className="hover:text-white transition-colors cursor-pointer"
                   >
                     Terms of Service
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={onContactClick}
+                  <Link
+                    to="/contact"
                     className="hover:text-white transition-colors cursor-pointer"
                   >
                     Contact Us
-                  </button>
+                  </Link>
                 </li>
               </ul>
             </div>

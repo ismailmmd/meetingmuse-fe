@@ -252,25 +252,31 @@ exports[`HomePage > Snapshots > should match snapshot for footer section 1`] = `
           class="space-y-2 text-gray-400"
         >
           <li>
-            <button
+            <a
               class="hover:text-white transition-colors cursor-pointer"
+              data-discover="true"
+              href="/privacy"
             >
               Privacy Policy
-            </button>
+            </a>
           </li>
           <li>
-            <button
+            <a
               class="hover:text-white transition-colors cursor-pointer"
+              data-discover="true"
+              href="/terms"
             >
               Terms of Service
-            </button>
+            </a>
           </li>
           <li>
-            <button
+            <a
               class="hover:text-white transition-colors cursor-pointer"
+              data-discover="true"
+              href="/contact"
             >
               Contact Us
-            </button>
+            </a>
           </li>
         </ul>
       </div>
@@ -325,11 +331,13 @@ exports[`HomePage > Snapshots > should match snapshot for header section 1`] = `
           </p>
         </div>
       </div>
-      <button
-        class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30"
+      <a
+        class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30 inline-block text-center"
+        data-discover="true"
+        href="/login"
       >
         Get Started
-      </button>
+      </a>
     </div>
   </div>
 </header>
@@ -359,11 +367,13 @@ exports[`HomePage > Snapshots > should match snapshot for main content section 1
       >
         Simply describe your meeting needs in natural language. MeetingMuse understands your requirements and handles the scheduling automatically.
       </p>
-      <button
-        class="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1"
+      <a
+        class="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block text-center"
+        data-discover="true"
+        href="/login"
       >
         Start Scheduling
-      </button>
+      </a>
     </div>
     <div
       class="grid md:grid-cols-3 gap-8 mb-16"
@@ -590,11 +600,13 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
             </p>
           </div>
         </div>
-        <button
-          class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30"
+        <a
+          class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white font-semibold transition-all duration-200 border border-white/30 inline-block text-center"
+          data-discover="true"
+          href="/login"
         >
           Get Started
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -621,11 +633,13 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
         >
           Simply describe your meeting needs in natural language. MeetingMuse understands your requirements and handles the scheduling automatically.
         </p>
-        <button
-          class="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1"
+        <a
+          class="px-8 py-4 blue-gradient text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block text-center"
+          data-discover="true"
+          href="/login"
         >
           Start Scheduling
-        </button>
+        </a>
       </div>
       <div
         class="grid md:grid-cols-3 gap-8 mb-16"
@@ -872,25 +886,31 @@ exports[`HomePage > Snapshots > should render the complete homepage correctly 1`
             class="space-y-2 text-gray-400"
           >
             <li>
-              <button
+              <a
                 class="hover:text-white transition-colors cursor-pointer"
+                data-discover="true"
+                href="/privacy"
               >
                 Privacy Policy
-              </button>
+              </a>
             </li>
             <li>
-              <button
+              <a
                 class="hover:text-white transition-colors cursor-pointer"
+                data-discover="true"
+                href="/terms"
               >
                 Terms of Service
-              </button>
+              </a>
             </li>
             <li>
-              <button
+              <a
                 class="hover:text-white transition-colors cursor-pointer"
+                data-discover="true"
+                href="/contact"
               >
                 Contact Us
-              </button>
+              </a>
             </li>
           </ul>
         </div>

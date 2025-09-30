@@ -1,70 +1,28 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '../test/test-utils';
 import { HomePage } from './HomePage';
 
-// Mock the callback functions
-const mockOnGetStarted = vi.fn();
-const mockOnPrivacyClick = vi.fn();
-const mockOnTermsClick = vi.fn();
-const mockOnContactClick = vi.fn();
-
 describe('HomePage', () => {
-  beforeEach(() => {
-    mockOnGetStarted.mockClear();
-    mockOnPrivacyClick.mockClear();
-    mockOnTermsClick.mockClear();
-    mockOnContactClick.mockClear();
-  });
-
   describe('Snapshots', () => {
     it('should render the complete homepage correctly', () => {
-      const { container } = render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      const { container } = render(<HomePage />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
     it('should match snapshot for header section', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
       const header = screen.getByRole('banner');
       expect(header).toMatchSnapshot();
     });
 
     it('should match snapshot for main content section', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
       const main = screen.getByRole('main');
       expect(main).toMatchSnapshot();
     });
 
     it('should match snapshot for footer section', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
       const footer = screen.getByRole('contentinfo');
       expect(footer).toMatchSnapshot();
     });
@@ -72,14 +30,7 @@ describe('HomePage', () => {
 
   describe('Header Content', () => {
     it('should display the MeetingMuse brand correctly', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       // Check main heading
       expect(
@@ -87,21 +38,14 @@ describe('HomePage', () => {
       ).toBeInTheDocument();
       expect(screen.getByText('Your AI Meeting Assistant')).toBeInTheDocument();
 
-      // Check CTA button
+      // Check CTA link
       expect(
-        screen.getByRole('button', { name: 'Get Started' })
+        screen.getByRole('link', { name: 'Get Started' })
       ).toBeInTheDocument();
     });
 
     it('should render the logo icon', () => {
-      const { container } = render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      const { container } = render(<HomePage />);
       const svgElements = container.querySelectorAll('svg');
       expect(svgElements.length).toBeGreaterThan(0);
     });
@@ -109,14 +53,7 @@ describe('HomePage', () => {
 
   describe('Hero Section Content', () => {
     it('should display the main value proposition', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       expect(
         screen.getByRole('heading', {
@@ -131,21 +68,14 @@ describe('HomePage', () => {
       ).toBeInTheDocument();
 
       expect(
-        screen.getByRole('button', { name: 'Start Scheduling' })
+        screen.getByRole('link', { name: 'Start Scheduling' })
       ).toBeInTheDocument();
     });
   });
 
   describe('Features Section', () => {
     it('should display all three feature cards', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       // Feature card titles
       expect(
@@ -177,14 +107,7 @@ describe('HomePage', () => {
     });
 
     it('should match snapshot for individual feature cards', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       const naturalConvCard = screen
         .getByRole('heading', { name: 'Natural Conversation' })
@@ -204,14 +127,7 @@ describe('HomePage', () => {
 
   describe('How It Works Section', () => {
     it('should display the three-step process', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       expect(
         screen.getByRole('heading', { name: 'How MeetingMuse Works', level: 3 })
@@ -249,14 +165,7 @@ describe('HomePage', () => {
     });
 
     it('should match snapshot for how it works section', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
       const howItWorksSection = screen
         .getByRole('heading', { name: 'How MeetingMuse Works' })
         .closest('div');
@@ -266,14 +175,7 @@ describe('HomePage', () => {
 
   describe('Footer Content', () => {
     it('should display footer information correctly', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       // Company description
       expect(
@@ -295,14 +197,7 @@ describe('HomePage', () => {
     });
 
     it('should display the footer brand correctly', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       const footerHeadings = screen.getAllByRole('heading', {
         name: 'MeetingMuse',
@@ -311,135 +206,56 @@ describe('HomePage', () => {
     });
   });
 
-  describe('User Interactions', () => {
-    it('should call onGetStarted when header "Get Started" button is clicked', async () => {
-      const user = userEvent.setup();
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+  describe('Navigation Links', () => {
+    it('should have Get Started links that point to /login', () => {
+      render(<HomePage />);
 
-      const buttons = screen.getAllByRole('button', { name: 'Get Started' });
-      await user.click(buttons[0]); // Header button
-
-      expect(mockOnGetStarted).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call onGetStarted when hero "Start Scheduling" button is clicked', async () => {
-      const user = userEvent.setup();
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
-
-      const startButton = screen.getByRole('button', {
-        name: 'Start Scheduling',
-      });
-      await user.click(startButton);
-
-      expect(mockOnGetStarted).toHaveBeenCalledTimes(1);
-    });
-
-    it('should handle multiple button clicks correctly', async () => {
-      const user = userEvent.setup();
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
-
-      const getStartedButton = screen.getAllByRole('button', {
+      const getStartedLinks = screen.getAllByRole('link', {
         name: 'Get Started',
-      })[0];
-      const startButton = screen.getByRole('button', {
-        name: 'Start Scheduling',
       });
-
-      await user.click(getStartedButton);
-      await user.click(startButton);
-
-      expect(mockOnGetStarted).toHaveBeenCalledTimes(2);
+      expect(getStartedLinks[0]).toHaveAttribute('href', '/login');
     });
 
-    it('should call onPrivacyClick when Privacy Policy link is clicked', async () => {
-      const user = userEvent.setup();
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+    it('should have Start Scheduling link that points to /login', () => {
+      render(<HomePage />);
 
-      const privacyButton = screen.getByRole('button', {
+      const startButton = screen.getByRole('link', {
+        name: 'Start Scheduling',
+      });
+      expect(startButton).toHaveAttribute('href', '/login');
+    });
+
+    it('should have Privacy Policy link that points to /privacy', () => {
+      render(<HomePage />);
+
+      const privacyLink = screen.getByRole('link', {
         name: 'Privacy Policy',
       });
-      await user.click(privacyButton);
-
-      expect(mockOnPrivacyClick).toHaveBeenCalledTimes(1);
+      expect(privacyLink).toHaveAttribute('href', '/privacy');
     });
 
-    it('should call onTermsClick when Terms of Service link is clicked', async () => {
-      const user = userEvent.setup();
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+    it('should have Terms of Service link that points to /terms', () => {
+      render(<HomePage />);
 
-      const termsButton = screen.getByRole('button', {
+      const termsLink = screen.getByRole('link', {
         name: 'Terms of Service',
       });
-      await user.click(termsButton);
-
-      expect(mockOnTermsClick).toHaveBeenCalledTimes(1);
+      expect(termsLink).toHaveAttribute('href', '/terms');
     });
 
-    it('should call onContactClick when Contact Us link is clicked', async () => {
-      const user = userEvent.setup();
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+    it('should have Contact Us link that points to /contact', () => {
+      render(<HomePage />);
 
-      const contactButton = screen.getByRole('button', {
+      const contactLink = screen.getByRole('link', {
         name: 'Contact Us',
       });
-      await user.click(contactButton);
-
-      expect(mockOnContactClick).toHaveBeenCalledTimes(1);
+      expect(contactLink).toHaveAttribute('href', '/contact');
     });
   });
 
   describe('Accessibility', () => {
     it('should have proper heading hierarchy', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       // Should have h1, h2, h3, h4 in proper order
       const h1 = screen.getAllByRole('heading', { level: 1 });
@@ -453,32 +269,18 @@ describe('HomePage', () => {
       expect(h4.length).toBeGreaterThan(0);
     });
 
-    it('should have clickable buttons with proper accessibility', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+    it('should have clickable links with proper accessibility', () => {
+      render(<HomePage />);
 
-      const buttons = screen.getAllByRole('button');
-      buttons.forEach((button) => {
-        expect(button).toBeEnabled();
-        expect(button).toHaveTextContent(/.+/); // Should have text content
+      const links = screen.getAllByRole('link');
+      links.forEach((link) => {
+        expect(link).toHaveTextContent(/.+/); // Should have text content
+        expect(link).toHaveAttribute('href'); // Should have href
       });
     });
 
     it('should have proper semantic structure', () => {
-      render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      render(<HomePage />);
 
       expect(screen.getByRole('banner')).toBeInTheDocument(); // header
       expect(screen.getByRole('main')).toBeInTheDocument(); // main content
@@ -488,14 +290,7 @@ describe('HomePage', () => {
 
   describe('Responsive Design Elements', () => {
     it('should include responsive CSS classes', () => {
-      const { container } = render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      const { container } = render(<HomePage />);
 
       // Check for responsive classes (these would be in the snapshot)
       expect(container.innerHTML).toContain('md:grid-cols-3');
@@ -506,14 +301,7 @@ describe('HomePage', () => {
 
   describe('Visual Design Elements', () => {
     it('should include design system classes', () => {
-      const { container } = render(
-        <HomePage
-          onGetStarted={mockOnGetStarted}
-          onPrivacyClick={mockOnPrivacyClick}
-          onTermsClick={mockOnTermsClick}
-          onContactClick={mockOnContactClick}
-        />
-      );
+      const { container } = render(<HomePage />);
 
       // Check for design system classes
       expect(container.innerHTML).toContain('blue-gradient');

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -10,11 +11,8 @@ import { TermsPage } from './components/TermsPage';
 import { ContactPage } from './components/ContactPage';
 import './index.css';
 
-type PageType = 'home' | 'login' | 'privacy' | 'terms' | 'contact';
-
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
-  const [currentPage, setCurrentPage] = useState<PageType>('home');
 
   if (isLoading) {
     return (
@@ -31,35 +29,27 @@ const AppContent: React.FC = () => {
     return <ChatApp />;
   }
 
-  switch (currentPage) {
-    case 'login':
-      return <LoginPage onBack={() => setCurrentPage('home')} />;
-    case 'privacy':
-      return <PrivacyPage onBack={() => setCurrentPage('home')} />;
-    case 'terms':
-      return <TermsPage onBack={() => setCurrentPage('home')} />;
-    case 'contact':
-      return <ContactPage onBack={() => setCurrentPage('home')} />;
-    case 'home':
-    default:
-      return (
-        <HomePage
-          onGetStarted={() => setCurrentPage('login')}
-          onPrivacyClick={() => setCurrentPage('privacy')}
-          onTermsClick={() => setCurrentPage('terms')}
-          onContactClick={() => setCurrentPage('contact')}
-        />
-      );
-  }
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
 };
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-      <Analytics />
-      <SpeedInsights />
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppContent />
+        <Analytics />
+        <SpeedInsights />
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

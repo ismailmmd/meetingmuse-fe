@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { LoginPage } from './LoginPage';
 import { AuthProvider } from '../contexts/AuthContext';
@@ -14,8 +14,6 @@ vi.mock('../services/AuthService', () => ({
   },
 }));
 
-const mockOnBack = vi.fn();
-
 // Mock localStorage
 const localStorageMock = {
   getItem: vi.fn(),
@@ -28,15 +26,14 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 // Wrapper component that provides AuthContext
-const LoginPageWrapper = ({ onBack }: { onBack?: () => void }) => (
+const LoginPageWrapper = () => (
   <AuthProvider>
-    <LoginPage onBack={onBack} />
+    <LoginPage />
   </AuthProvider>
 );
 
 describe('LoginPage', () => {
   beforeEach(() => {
-    mockOnBack.mockClear();
     localStorageMock.getItem.mockClear();
     localStorageMock.setItem.mockClear();
     vi.mocked(AuthService.AuthService.getAuthStatus).mockResolvedValue({
@@ -74,16 +71,14 @@ describe('LoginPage', () => {
       expect(container.firstChild).toMatchSnapshot('login-page-no-back-button');
     });
 
-    it('should render login page with back button', async () => {
-      const { container } = render(<LoginPageWrapper onBack={mockOnBack} />);
+    it('should render login page with back link', async () => {
+      const { container } = render(<LoginPageWrapper />);
 
       await waitFor(() => {
         expect(screen.getByText('Welcome to MeetingMuse')).toBeInTheDocument();
       });
 
-      expect(container.firstChild).toMatchSnapshot(
-        'login-page-with-back-button'
-      );
+      expect(container.firstChild).toMatchSnapshot('login-page-with-back-link');
     });
 
     it('should match snapshot for main content card', async () => {
@@ -99,15 +94,15 @@ describe('LoginPage', () => {
       expect(contentCard).toMatchSnapshot('login-content-card');
     });
 
-    it('should match snapshot for back button when present', async () => {
-      render(<LoginPageWrapper onBack={mockOnBack} />);
+    it('should match snapshot for back link', async () => {
+      render(<LoginPageWrapper />);
 
       await waitFor(() => {
         expect(screen.getByText('Back to Home')).toBeInTheDocument();
       });
 
-      const backButton = screen.getByRole('button', { name: 'Back to Home' });
-      expect(backButton).toMatchSnapshot('back-button');
+      const backLink = screen.getByRole('link', { name: 'Back to Home' });
+      expect(backLink).toMatchSnapshot('back-link');
     });
   });
 
@@ -165,55 +160,38 @@ describe('LoginPage', () => {
   });
 
   describe('Back Button Functionality', () => {
-    it('should not render back button when onBack prop is not provided', async () => {
+    it('should always render back link to home', async () => {
       render(<LoginPageWrapper />);
 
       await waitFor(() => {
         expect(screen.getByText('Welcome to MeetingMuse')).toBeInTheDocument();
       });
 
-      expect(
-        screen.queryByRole('button', { name: 'Back to Home' })
-      ).not.toBeInTheDocument();
+      const backLink = screen.getByRole('link', { name: 'Back to Home' });
+      expect(backLink).toBeInTheDocument();
+      expect(backLink).toHaveAttribute('href', '/');
     });
 
-    it('should render back button when onBack prop is provided', async () => {
-      render(<LoginPageWrapper onBack={mockOnBack} />);
+    it('should navigate to home when back link is clicked', async () => {
+      render(<LoginPageWrapper />);
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: 'Back to Home' })
-        ).toBeInTheDocument();
-      });
-    });
-
-    it('should call onBack when back button is clicked', async () => {
-      const user = userEvent.setup();
-      render(<LoginPageWrapper onBack={mockOnBack} />);
-
-      await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: 'Back to Home' })
-        ).toBeInTheDocument();
+        expect(screen.getByText('Welcome to MeetingMuse')).toBeInTheDocument();
       });
 
-      const backButton = screen.getByRole('button', { name: 'Back to Home' });
-      await user.click(backButton);
-
-      expect(mockOnBack).toHaveBeenCalledTimes(1);
+      const backLink = screen.getByRole('link', { name: 'Back to Home' });
+      expect(backLink).toHaveAttribute('href', '/');
     });
 
     it('should display the correct back arrow icon', async () => {
-      render(<LoginPageWrapper onBack={mockOnBack} />);
+      render(<LoginPageWrapper />);
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: 'Back to Home' })
-        ).toBeInTheDocument();
+        expect(screen.getByText('Welcome to MeetingMuse')).toBeInTheDocument();
       });
 
-      const backButton = screen.getByRole('button', { name: 'Back to Home' });
-      expect(backButton).toContainHTML('stroke="currentColor"');
+      const backLink = screen.getByRole('link', { name: 'Back to Home' });
+      expect(backLink).toContainHTML('stroke="currentColor"');
     });
   });
 
@@ -439,12 +417,12 @@ describe('LoginPage', () => {
       });
     });
 
-    it('should have accessible button labels', async () => {
-      render(<LoginPageWrapper onBack={mockOnBack} />);
+    it('should have accessible button and link labels', async () => {
+      render(<LoginPageWrapper />);
 
       await waitFor(() => {
         expect(
-          screen.getByRole('button', { name: 'Back to Home' })
+          screen.getByRole('link', { name: 'Back to Home' })
         ).toBeInTheDocument();
         expect(
           screen.getByRole('button', { name: 'Sign in with OAuth' })
