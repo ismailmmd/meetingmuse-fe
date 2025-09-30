@@ -111,7 +111,6 @@ export const ChatApp: React.FC = () => {
   const handleButtonClick = (value: string, actionType: string) => {
     if (!wsService.current || !connected) return;
 
-    console.log('Button clicked - removing buttons from messages');
 
     // Remove buttons from all messages to re-enable input
     setMessages((prev) =>
