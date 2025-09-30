@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatApp } from './components/ChatApp';
 import { LoginPage } from './components/LoginPage';
+import { HomePage } from './components/HomePage';
 import './index.css';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
 
   if (isLoading) {
     return (
@@ -20,7 +22,13 @@ const AppContent: React.FC = () => {
     );
   }
 
-  return isAuthenticated ? <ChatApp /> : <LoginPage />;
+  if (isAuthenticated) {
+    return <ChatApp />;
+  }
+
+  return showLogin ?
+    <LoginPage onBack={() => setShowLogin(false)} /> :
+    <HomePage onGetStarted={() => setShowLogin(true)} />;
 };
 
 function App() {
