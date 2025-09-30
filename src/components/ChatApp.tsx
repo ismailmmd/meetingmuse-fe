@@ -152,20 +152,6 @@ export const ChatApp: React.FC = () => {
     setHasActiveButtons(hasButtons);
   }, [messages]);
 
-  // Debug logging
-  useEffect(() => {
-    console.log(
-      'ChatApp state - connected:',
-      connected,
-      'waitingForResponse:',
-      waitingForResponse,
-      'hasActiveButtons:',
-      hasActiveButtons,
-      'disabled:',
-      !connected || waitingForResponse || hasActiveButtons
-    );
-  }, [connected, waitingForResponse, hasActiveButtons]);
-
   const getStatusText = () => {
     if (connecting) return 'Connecting...';
     if (connected) return 'Connected';
