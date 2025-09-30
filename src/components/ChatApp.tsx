@@ -67,7 +67,6 @@ export const ChatApp: React.FC = () => {
       });
 
       // Clear waiting state when receiving a response
-      console.log('Message received - setting waitingForResponse to false');
       setWaitingForResponse(false);
     });
 
