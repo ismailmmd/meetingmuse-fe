@@ -1,31 +1,31 @@
 const firstWords = [
-  "Schedule",
-  "Agenda",
-  "Calendar",
-  "Meeting",
-  "Time",
-  "Deadline",
-  "Conference",
-  "Planning",
-  "Event",
-  "Session"
+  'Schedule',
+  'Agenda',
+  'Calendar',
+  'Meeting',
+  'Time',
+  'Deadline',
+  'Conference',
+  'Planning',
+  'Event',
+  'Session',
 ];
 
 const secondWords = [
-  "Ace",
-  "Conductor",
-  "Master",
-  "Sage",
-  "Maven",
-  "Pro",
-  "Elite",
-  "Commander",
-  "Sensei",
-  "Guru",
-  "Wizard",
-  "Champion",
-  "Expert",
-  "Ninja"
+  'Ace',
+  'Conductor',
+  'Master',
+  'Sage',
+  'Maven',
+  'Pro',
+  'Elite',
+  'Commander',
+  'Sensei',
+  'Guru',
+  'Wizard',
+  'Champion',
+  'Expert',
+  'Ninja',
 ];
 
 /**
@@ -34,7 +34,8 @@ const secondWords = [
  */
 export const generateRandomTitle = (): string => {
   const randomFirst = firstWords[Math.floor(Math.random() * firstWords.length)];
-  const randomSecond = secondWords[Math.floor(Math.random() * secondWords.length)];
+  const randomSecond =
+    secondWords[Math.floor(Math.random() * secondWords.length)];
 
   return `${randomFirst} ${randomSecond}`;
 };
@@ -53,7 +54,7 @@ export const generateSessionTitle = (sessionId?: string): string => {
   let hash = 0;
   for (let i = 0; i < sessionId.length; i++) {
     const char = sessionId.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
 

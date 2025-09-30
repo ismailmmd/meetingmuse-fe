@@ -17,7 +17,10 @@ export class ContactsService {
    * @param sessionId - User session ID for OAuth authentication
    * @returns Promise<Contact[]> - List of matching contacts
    */
-  static async searchContacts(query: string, sessionId: string): Promise<Contact[]> {
+  static async searchContacts(
+    query: string,
+    sessionId: string
+  ): Promise<Contact[]> {
     if (!query.trim()) {
       return [];
     }
@@ -39,7 +42,7 @@ export class ContactsService {
       }
 
       const data = await response.json();
-      
+
       // Validate response structure and handle different formats
       if (!data) {
         return [];
@@ -47,7 +50,7 @@ export class ContactsService {
 
       // Handle different possible response formats
       let contacts: string[] = [];
-      
+
       if (Array.isArray(data)) {
         // Direct array of emails
         contacts = data;
@@ -61,11 +64,13 @@ export class ContactsService {
         console.warn('Unexpected API response format:', data);
         return [];
       }
-      
+
       // Transform email strings into Contact objects
       return contacts
-        .filter(email => typeof email === 'string' && this.isValidEmail(email))
-        .map(email => ({
+        .filter(
+          (email) => typeof email === 'string' && this.isValidEmail(email)
+        )
+        .map((email) => ({
           email,
           name: this.extractNameFromEmail(email),
         }));
@@ -87,10 +92,10 @@ export class ContactsService {
     if (localPart.includes('.')) {
       return localPart
         .split('.')
-        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
         .join(' ');
     }
-    
+
     // Return capitalized version of local part
     return localPart.charAt(0).toUpperCase() + localPart.slice(1);
   }

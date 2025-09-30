@@ -1,5 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from 'react';
 import { AuthService } from '../services/AuthService';
 
 export interface User {
@@ -61,7 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           id: data.session_id,
           email: 'user@authenticated.com',
           name: `Authenticated User (${clientId})`,
-          picture: 'https://ui-avatars.com/api/?name=AU'
+          picture: 'https://ui-avatars.com/api/?name=AU',
         };
         setUser(tempUser);
       } else {
@@ -89,7 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (authSuccess === 'true') {
       // Clear URL parameters
       window.history.replaceState({}, document.title, window.location.pathname);
-      
+
       // Check auth status to get session info
       const clientId = getClientId();
       await checkAuthStatus(clientId);
@@ -104,13 +111,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const initAuth = async () => {
       setIsLoading(true);
       const clientId = getClientId();
-      
+
       // Handle OAuth callback if present
       await handleAuthCallback();
-      
+
       // Check current auth status
       await checkAuthStatus(clientId);
-      
+
       setIsLoading(false);
     };
 
@@ -121,7 +128,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const clientId = getClientId();
       const data = await AuthService.startOAuthFlow(clientId);
-      
+
       // Redirect to Google OAuth
       window.location.href = data.authorization_url;
     } catch (error) {
@@ -155,11 +162,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     session,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {

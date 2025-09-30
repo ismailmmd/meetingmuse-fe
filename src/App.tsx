@@ -26,9 +26,11 @@ const AppContent: React.FC = () => {
     return <ChatApp />;
   }
 
-  return showLogin ?
-    <LoginPage onBack={() => setShowLogin(false)} /> :
-    <HomePage onGetStarted={() => setShowLogin(true)} />;
+  return showLogin ? (
+    <LoginPage onBack={() => setShowLogin(false)} />
+  ) : (
+    <HomePage onGetStarted={() => setShowLogin(true)} />
+  );
 };
 
 function App() {
