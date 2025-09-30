@@ -14,11 +14,17 @@ interface MentionedContact {
 interface MessageInputProps {
   onSend: (message: string) => void;
   disabled?: boolean;
+  initialMessage?: string;
+  onMessageChange?: (message: string) => void;
+  placeholderText?: string;
 }
 
 export const MessageInput: React.FC<MessageInputProps> = ({
   onSend,
   disabled = false,
+  initialMessage = '',
+  onMessageChange,
+  placeholderText,
 }) => {
   const { session } = useAuth();
   const [message, setMessage] = useState('');
@@ -28,6 +34,11 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   const [dropdownPosition] = useState({ top: 0, left: 0 });
   const [mentionStart, setMentionStart] = useState(-1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Debug logging
+  useEffect(() => {
+    console.log('MessageInput disabled state:', disabled);
+  }, [disabled]);
 
   const { contacts, setQuery, loading } = useMentions(
     session?.sessionId || '',
@@ -85,6 +96,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
     setDisplayMessage(newMessage);
     setMessage(newMessage); // This will be updated when mentions are selected
+    onMessageChange?.(newMessage);
 
     const mention = detectMention(newMessage, cursorPosition);
 
@@ -185,6 +197,18 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     }
   };
 
+  // Handle initialMessage prop
+  useEffect(() => {
+    if (initialMessage) {
+      setMessage(initialMessage);
+      setDisplayMessage(initialMessage);
+      // Focus the textarea after setting the message
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 0);
+    }
+  }, [initialMessage]);
+
   // Hide dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -208,9 +232,9 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
   return (
     <div className="border-t border-gray-200/50 p-3 sm:p-4 bg-white/60 backdrop-blur-sm">
-      <div className="flex space-x-2 sm:space-x-3 items-end max-w-4xl mx-auto">
+      <div className="flex space-x-2 sm:space-x-3 items-stretch max-w-4xl mx-auto">
         {/* Input Container */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative flex flex-col">
           {/* Mention chips display */}
           {mentions.length > 0 && (
             <div className="flex flex-wrap gap-1 mb-2 p-2 bg-gray-50 rounded-lg">
@@ -231,7 +255,10 @@ export const MessageInput: React.FC<MessageInputProps> = ({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder={
-              disabled ? 'Connecting...' : 'Ask me anything about scheduling...'
+              placeholderText ||
+              (disabled
+                ? 'Connecting...'
+                : 'Ask me anything about scheduling...')
             }
             disabled={disabled}
             className={`
@@ -266,6 +293,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
           className={`
             px-3 py-2 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl font-medium text-white transition-all duration-200 shadow-lg
             flex items-center justify-center min-w-[60px] sm:min-w-[80px]
+            h-[44px] sm:h-[52px]
             ${
               disabled || !message.trim()
                 ? 'bg-gray-300 cursor-not-allowed shadow-sm'

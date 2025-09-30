@@ -5,11 +5,13 @@ import { DisplayMessage } from '../types/message';
 interface MessageListProps {
   messages: DisplayMessage[];
   onButtonClick?: (value: string, actionType: string) => void;
+  onSuggestionClick?: (suggestion: string) => void;
 }
 
 export const MessageList: React.FC<MessageListProps> = ({
   messages,
   onButtonClick,
+  onSuggestionClick,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +24,7 @@ export const MessageList: React.FC<MessageListProps> = ({
   }, [messages]);
 
   const hasUserMessages = messages.some((m) => m.type === 'user_message');
-  const visibleMessages = messages.filter((m) => m.type !== 'system_message');
+  // const visibleMessages = messages.filter((m) => m.type !== 'system_message');
 
   return (
     <div
@@ -63,12 +65,13 @@ export const MessageList: React.FC<MessageListProps> = ({
                 </p>
                 <div className="space-y-2">
                   {[
-                    'Schedule a meeting with Chandra tomorrow on next mission',
-                    'Schedule a 30-minute meeting next week with Chaathan',
-                    'Set a 15 min reminder',
+                    'Schedule a meeting with abc@abc.com tomorrow 2 pm on "next mission"',
+                    'Schedule a 30-minute meeting next week with abc@abc.com',
+                    'Set a 15 min reminder about "my life"',
                   ].map((suggestion, index) => (
                     <div
                       key={index}
+                      onClick={() => onSuggestionClick?.(suggestion)}
                       className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-xs sm:text-sm hover:bg-blue-100 transition-colors cursor-pointer"
                     >
                       "{suggestion}"
@@ -81,7 +84,7 @@ export const MessageList: React.FC<MessageListProps> = ({
         </div>
       ) : (
         <div className="p-3 sm:p-4 lg:p-6 space-y-1">
-          {visibleMessages.map((message) => (
+          {messages.map((message) => (
             <MessageBubble
               key={message.id}
               message={message}
