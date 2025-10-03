@@ -1,5 +1,7 @@
 # MeetingMuse Frontend
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/4w7MvE1J2a8/0.jpg)](https://www.youtube.com/watch?v=4w7MvE1J2a8)
+
 A modern, responsive web-based chat application for MeetingMuse, an AI-powered meeting scheduling assistant. Built with React + Vite, TypeScript, and Tailwind CSS.
 
 Webserver - https://github.com/thisisarjun/meetingmuse
