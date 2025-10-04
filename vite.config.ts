@@ -50,7 +50,7 @@ export default defineConfig(({ mode }) => {
       __VITE_WS_URL__: JSON.stringify(env.wsUrl),
     },
     
-    // Base path
-    base: '/',
+    // Base path - use relative paths for Electron compatibility
+    base: './',
   }
 })

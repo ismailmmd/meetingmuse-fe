@@ -17,6 +17,26 @@ export const ChatApp: React.FC = () => {
   const [hasActiveButtons, setHasActiveButtons] = useState(false);
   const wsService = useRef<WebSocketService | null>(null);
 
+  // Listen for Electron hotkey events
+  useEffect(() => {
+    console.log('Setting up Electron hotkey listener, electronAPI available:', !!window.electronAPI);
+    if (window.electronAPI) {
+      window.electronAPI.onHotkeyTriggered((data) => {
+        console.log('✅ Hotkey triggered! Received data:', data);
+        console.log('Selected text:', data.selectedText);
+        if (data.selectedText) {
+          console.log('Setting input message to:', data.selectedText);
+          setInputMessage(data.selectedText);
+        } else {
+          console.log('⚠️ No selectedText in data');
+        }
+      });
+      console.log('Hotkey listener registered successfully');
+    } else {
+      console.log('⚠️ electronAPI not available - running in browser mode');
+    }
+  }, []);
+
   useEffect(() => {
     if (!user || !session?.sessionId || !session.clientId) return;
 
