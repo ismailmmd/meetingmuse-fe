@@ -7,12 +7,12 @@ export default defineConfig(({ mode }) => {
   // Environment-specific configuration
   const config = {
     local: {
-      apiUrl: 'http://localhost:8000',
-      wsUrl: 'ws://localhost:8000',
+      apiUrl: 'http://localhost:8000/api/v1',
+      wsUrl: 'ws://localhost:8000/api/v1',
     },
     production: {
-      apiUrl: 'https://meetingmuse.onrender.com',
-      wsUrl: 'wss://meetingmuse.onrender.com',
+      apiUrl: 'https://meetingmuse.onrender.com/api/v1',
+      wsUrl: 'wss://meetingmuse.onrender.com/api/v1',
     }
   }
   
