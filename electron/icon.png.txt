@@ -1,4 +1,0 @@
-# You'll need to add a proper icon.png file here
-# For now, Electron will use a default icon
-# Recommended size: 16x16 for tray icon
-# You can create one or use your app logo
