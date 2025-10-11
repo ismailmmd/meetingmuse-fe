@@ -34,6 +34,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   const [dropdownPosition] = useState({ top: 0, left: 0 });
   const [mentionStart, setMentionStart] = useState(-1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const hasInitialized = useRef(false);
 
   // Debug logging
   useEffect(() => {
@@ -198,13 +199,29 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
   // Handle initialMessage prop
   useEffect(() => {
-    if (initialMessage) {
+    if (initialMessage && !hasInitialized.current) {
+      hasInitialized.current = true;
       setMessage(initialMessage);
       setDisplayMessage(initialMessage);
-      // Focus the textarea after setting the message
+      // Focus the textarea and select the placeholder time
       setTimeout(() => {
-        textareaRef.current?.focus();
-      }, 0);
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+
+          // If message contains "in 2 hours" or similar pattern, select it
+          const match = initialMessage.match(/in (.+)$/);
+          if (match) {
+            const placeholder = match[1]; // "2 hours"
+            const startPosition = initialMessage.indexOf(placeholder);
+            const endPosition = startPosition + placeholder.length;
+            textareaRef.current.setSelectionRange(startPosition, endPosition);
+          } else {
+            // Default: position cursor at the end
+            const endPosition = initialMessage.length;
+            textareaRef.current.setSelectionRange(endPosition, endPosition);
+          }
+        }
+      }, 100);
     }
   }, [initialMessage]);
 

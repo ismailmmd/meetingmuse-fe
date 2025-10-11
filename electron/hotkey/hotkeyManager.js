@@ -2,7 +2,7 @@ import { globalShortcut, clipboard, Notification } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import Store from 'electron-store';
-import { DEFAULT_HOTKEY, SERVER_URL } from '../config.js';
+import { DEFAULT_HOTKEY } from '../config.js';
 import { createMainWindow, getMainWindow, showMainWindow } from '../windows/mainWindow.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const store = new Store();
 
-async function handleHotkeyPress() {
+function handleHotkeyPress() {
   const hotkey = store.get('hotkey', DEFAULT_HOTKEY);
   console.log(`Hotkey ${hotkey} pressed!`);
 
@@ -33,67 +33,24 @@ async function handleHotkeyPress() {
     return;
   }
 
-  try {
-    // Call backend server
-    const response = await fetch(`${SERVER_URL}/api/hotkey-trigger`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        timestamp: new Date().toISOString(),
-        user: store.get('user'),
+  // Show or create window and send clipboard text directly
+  const mainWindow = getMainWindow();
+
+  if (!mainWindow) {
+    const newWindow = createMainWindow();
+    // Wait for window to load before sending data
+    newWindow.webContents.once('did-finish-load', () => {
+      console.log('Window loaded, sending clipboard text:', { selectedText });
+      newWindow.webContents.send('hotkey-triggered', {
         selectedText: selectedText
-      })
+      });
     });
-
-    const data = await response.json();
-    console.log('Server response:', data);
-
-    // Show or create window
-    const mainWindow = getMainWindow();
-    const windowWasCreated = !mainWindow;
-
-    if (!mainWindow) {
-      const newWindow = createMainWindow();
-      // Wait for window to load before sending data
-      newWindow.webContents.once('did-finish-load', () => {
-        console.log('Window loaded, sending data:', { selectedText });
-        newWindow.webContents.send('hotkey-triggered', {
-          ...data,
-          selectedText: selectedText
-        });
-      });
-    } else {
-      showMainWindow();
-      console.log('Window already exists, sending data immediately:', { selectedText });
-      mainWindow.webContents.send('hotkey-triggered', {
-        ...data,
-        selectedText: selectedText
-      });
-    }
-  } catch (error) {
-    console.error('Error calling server:', error);
-
-    // Even if server call fails, still show window with selected text
-    const mainWindow = getMainWindow();
-    const windowWasCreated = !mainWindow;
-
-    if (!mainWindow) {
-      const newWindow = createMainWindow();
-      newWindow.webContents.once('did-finish-load', () => {
-        console.log('Window loaded (error path), sending data:', { selectedText });
-        newWindow.webContents.send('hotkey-triggered', {
-          selectedText: selectedText
-        });
-      });
-    } else {
-      showMainWindow();
-      console.log('Window already exists (error path), sending data immediately:', { selectedText });
-      mainWindow.webContents.send('hotkey-triggered', {
-        selectedText: selectedText
-      });
-    }
+  } else {
+    showMainWindow();
+    console.log('Window already exists, sending clipboard text immediately:', { selectedText });
+    mainWindow.webContents.send('hotkey-triggered', {
+      selectedText: selectedText
+    });
   }
 }
 
