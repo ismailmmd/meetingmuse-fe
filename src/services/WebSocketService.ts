@@ -57,6 +57,7 @@ export class WebSocketService {
         content,
         timestamp: new Date().toISOString(),
         session_id: this.sessionId,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       };
 
       console.log('Sending message:', message);

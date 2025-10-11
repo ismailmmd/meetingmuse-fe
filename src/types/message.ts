@@ -3,6 +3,7 @@ export interface UserMessage {
   content: string;
   timestamp: string;
   session_id: string;
+  timezone: string;
 }
 
 export interface UIButton {
