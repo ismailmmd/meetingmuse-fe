@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MeetingMuse Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #db2777 0%, #be123c 100%);
+      padding: 40px;
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: #db2777;
+    }
+
+    .setting-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #db2777;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #db2777, #be123c);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d1fae5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .status.error {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .examples {
+      background: #f9fafb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    .examples p {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ MeetingMuse Settings</h1>
+
+    <div class="setting-group">
+      <label for="hotkey">Global Hotkey</label>
+      <input type="text" id="hotkey" placeholder="CommandOrControl+Shift+M">
+      <p class="help-text">Press the key combination you want to use</p>
+
+      <div class="examples">
+        <p><strong>Examples:</strong></p>
+        <p>• CommandOrControl+Shift+M</p>
+        <p>• Alt+Space</p>
+        <p>• CommandOrControl+Option+M</p>
+      </div>
+    </div>
+
+    <button id="saveBtn">Save Settings</button>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    const hotkeyInput = document.getElementById('hotkey');
+    const saveBtn = document.getElementById('saveBtn');
+    const statusDiv = document.getElementById('status');
+
+    // Load current settings
+    window.electronAPI.getSettings().then(settings => {
+      hotkeyInput.value = settings.hotkey;
+    });
+
+    // Capture key presses for hotkey input
+    hotkeyInput.addEventListener('keydown', (e) => {
+      e.preventDefault();
+
+      const modifiers = [];
+      if (e.metaKey || e.ctrlKey) modifiers.push('CommandOrControl');
+      if (e.altKey) modifiers.push('Alt');
+      if (e.shiftKey) modifiers.push('Shift');
+
+      const key = e.key.toUpperCase();
+
+      if (key !== 'META' && key !== 'CONTROL' && key !== 'ALT' && key !== 'SHIFT') {
+        const hotkey = [...modifiers, key].join('+');
+        hotkeyInput.value = hotkey;
+      }
+    });
+
+    saveBtn.addEventListener('click', async () => {
+      const hotkey = hotkeyInput.value.trim();
+
+      if (!hotkey) {
+        showStatus('Please enter a hotkey', 'error');
+        return;
+      }
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      const result = await window.electronAPI.setHotkey(hotkey);
+
+      if (result.success) {
+        showStatus('✓ Hotkey saved successfully!', 'success');
+      } else {
+        showStatus(`✗ Error: ${result.error}`, 'error');
+      }
+
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Settings';
+    });
+
+    function showStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = `status ${type}`;
+      statusDiv.style.display = 'block';
+
+      setTimeout(() => {
+        statusDiv.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

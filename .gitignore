@@ -12,6 +12,19 @@ dist
 dist-ssr
 *.local
 
+# Electron build outputs
+dist-electron
+out
+*.dmg
+*.app
+*.exe
+*.AppImage
+*.deb
+*.zip
+
+# Electron development
+electron-builder.yml
+
 # Editor directories and files
 .vscode/*
 \!.vscode/extensions.json
@@ -22,5 +35,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-EOF < /dev/null
 .playwright**
